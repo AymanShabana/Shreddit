@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shreddit">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Views.MainActivity"></activity>
+        <activity android:name=".Views.InitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
