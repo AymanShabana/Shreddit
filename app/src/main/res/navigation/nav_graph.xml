@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.shreddit.Views.LoginFragment"
+        android:name="com.example.shreddit.Views.Initial.LoginFragment"
         android:label="@string/login_fragment_label"
         tools:layout="@layout/fragment_login">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.shreddit.Views.RegisterFragment"
+        android:name="com.example.shreddit.Views.Initial.RegisterFragment"
         android:label="@string/register_fragment_label"
         tools:layout="@layout/fragment_register">
 

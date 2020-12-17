@@ -4,4 +4,9 @@
     <string name="register_fragment_label">Register</string>
     <string name="new_to_shreddit_text">New to Shreddit? Register.</string>
     <string name="already_a_user_text">Already a user? Login.</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_subs">Subscriptions</string>
+    <string name="menu_post">Post</string>
+    <string name="menu_chat">Chat</string>
+    <string name="menu_notif">Notifications</string>
 </resources>

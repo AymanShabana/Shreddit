@@ -8,9 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Shreddit">
+        android:theme="@style/Theme.Shreddit"
+        android:screenOrientation="portrait">
         <activity android:name=".Views.MainActivity"></activity>
-        <activity android:name=".Views.InitialActivity">
+        <activity android:name=".Views.Initial.InitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

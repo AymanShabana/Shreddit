@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.InitialActivity">
+    tools:context=".Views.Initial.InitialActivity">
     <include layout="@layout/content_initial" />
 </androidx.constraintlayout.widget.ConstraintLayout>
