@@ -1,13 +1,25 @@
 package com.example.shreddit.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.shreddit.Models.Board;
 import com.example.shreddit.R;
+import com.example.shreddit.ViewModels.InitialViewModel;
+import com.example.shreddit.ViewModels.SubViewModel;
+import com.example.shreddit.Views.Initial.RegisterFragment;
+import com.example.shreddit.databinding.FragmentLoginBinding;
+import com.example.shreddit.databinding.FragmentSubsBinding;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +36,10 @@ public class SubsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentSubsBinding binding;
+    private SubViewModel mSubViewModel;
+    private SubAdapter adapter;
 
     public SubsFragment() {
         // Required empty public constructor
@@ -60,6 +76,32 @@ public class SubsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_subs, container, false);
+        binding = FragmentSubsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        mSubViewModel = new ViewModelProvider(this).get(SubViewModel.class);
+        binding.create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+                String name = binding.subname.getText().toString();
+                Board board = new Board("",name, "", "", "", "", 0, "", new Date().getTime()/1000);
+                mSubViewModel.insert(board,new RegisterFragment.MyCallbackInterface(){
+                    @Override
+                    public void onAuthFinished(String result) {
+                        binding.progressBar.setVisibility(View.GONE);
+                        if(result.equals("success")){
+                            Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                        }
+                        else{
+                            Snackbar.make(binding.parentLayout, "Error: "+result, Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+
+                });
+            }
+        });
+
+        return view;
+
     }
 }

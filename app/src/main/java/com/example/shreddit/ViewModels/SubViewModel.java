@@ -1,0 +1,29 @@
+package com.example.shreddit.ViewModels;
+
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.example.shreddit.Models.Board;
+import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.PostRepo;
+import com.example.shreddit.Models.SubRepo;
+import com.example.shreddit.Views.Initial.RegisterFragment;
+
+import java.util.List;
+
+public class SubViewModel extends AndroidViewModel {
+    private SubRepo mRepository;
+    private LiveData<List<Board>> mAllBoards;
+    public SubViewModel(@NonNull Application application) {
+        super(application);
+        mRepository = new SubRepo(application);
+        mAllBoards = mRepository.getAllBoards();
+    }
+    public LiveData<List<Board>> getAllBoards() { return mAllBoards; }
+    public void insert(Board board, RegisterFragment.MyCallbackInterface success) { mRepository.insert(board,success); }
+    public void updateBoard(Board board){ mRepository.updateBoard(board);}
+    public void deleteBoards(Board... boards){ mRepository.deleteBoards(boards);}
+}

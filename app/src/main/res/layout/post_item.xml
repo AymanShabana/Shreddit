@@ -26,7 +26,7 @@
                         android:layout_height="15dp"
                         android:layout_marginStart="20dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_launcher_background"
+                        android:src="@drawable/icon_s"
                         android:layout_marginLeft="20dp"
                         />
                     <TextView

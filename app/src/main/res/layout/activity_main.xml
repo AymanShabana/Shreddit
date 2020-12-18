@@ -29,7 +29,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/icon"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
                 android:layout_marginLeft="20dp" />
