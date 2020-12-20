@@ -24,6 +24,6 @@ public interface SubDao {
     void deleteAll();
 
     @Query("SELECT * from board_table ORDER BY name ASC")
-    LiveData<List<Board>> getAllBoards();
+    List<Board> getAllBoards();
 
 }

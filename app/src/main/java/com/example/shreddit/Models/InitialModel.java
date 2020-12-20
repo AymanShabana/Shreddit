@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.example.shreddit.Views.Initial.RegisterFragment;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +40,7 @@ public class InitialModel {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.mRootRef = database.getReference();
     }
-    public void loginUser(String emailTxt, String passTxt, RegisterFragment.MyCallbackInterface success) {
+    public void loginUser(String emailTxt, String passTxt, MyCallbackInterface success) {
 
         auth.signInWithEmailAndPassword(emailTxt,passTxt)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -56,7 +56,7 @@ public class InitialModel {
                     }
                 });
     }
-    public void register(String username, String emailTxt, String passTxt, RegisterFragment.MyCallbackInterface success) {
+    public void register(String username, String emailTxt, String passTxt, MyCallbackInterface success) {
         auth.createUserWithEmailAndPassword(emailTxt,passTxt)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override

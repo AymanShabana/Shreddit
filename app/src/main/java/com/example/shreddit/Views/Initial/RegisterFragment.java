@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.Views.MainActivity;
 import com.example.shreddit.databinding.FragmentRegisterBinding;
@@ -112,10 +113,6 @@ public class RegisterFragment extends Fragment {
             }
         });
         return view;
-    }
-    public interface MyCallbackInterface {
-
-        void onAuthFinished(String result);
     }
 
 }

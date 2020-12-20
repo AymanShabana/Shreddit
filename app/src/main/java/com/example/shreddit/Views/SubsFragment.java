@@ -7,11 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
+import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.ViewModels.SubViewModel;
 import com.example.shreddit.Views.Initial.RegisterFragment;
@@ -20,6 +26,7 @@ import com.example.shreddit.databinding.FragmentSubsBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,14 +85,20 @@ public class SubsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentSubsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        RecyclerView recyclerView = view.findViewById(R.id.sub_recycler_view);
+        adapter = new SubAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSubViewModel = new ViewModelProvider(this).get(SubViewModel.class);
+        adapter.setBoards(mSubViewModel.getAllBoards());
+
         binding.create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 String name = binding.subname.getText().toString();
                 Board board = new Board("",name, "", "", "", "", 0, "", new Date().getTime()/1000);
-                mSubViewModel.insert(board,new RegisterFragment.MyCallbackInterface(){
+                mSubViewModel.insert(board,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {
                         binding.progressBar.setVisibility(View.GONE);

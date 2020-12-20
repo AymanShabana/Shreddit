@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.Views.MainActivity;
 import com.example.shreddit.databinding.FragmentLoginBinding;
@@ -89,7 +90,7 @@ public class LoginFragment extends Fragment {
                 String email = binding.emailTxtLogin.getText().toString();
                 String password = binding.passwordTxtLogin.getText().toString();
                 if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
-                    mInitialViewModel.loginUser(email, password,new RegisterFragment.MyCallbackInterface(){
+                    mInitialViewModel.loginUser(email, password,new MyCallbackInterface(){
                         @Override
                         public void onAuthFinished(String result) {
                             binding.progressBar.setVisibility(View.GONE);
