@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shreddit">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Shreddit"
-        android:screenOrientation="portrait">
-        <activity android:name=".Views.MainActivity"></activity>
+        android:theme="@style/Theme.Shreddit">
+        <activity android:name=".Views.Postings.ImagePostActivity"></activity>
+        <activity android:name=".Views.Postings.LinkPostActivity" />
+        <activity android:name=".Views.MainActivity" />
         <activity android:name=".Views.Initial.InitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

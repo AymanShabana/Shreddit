@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shreddit.Models.Board;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.Keyboard;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.ViewModels.SubViewModel;
@@ -90,11 +91,14 @@ public class SubsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSubViewModel = new ViewModelProvider(this).get(SubViewModel.class);
+        mSubViewModel.sendAdapter(adapter,binding.progressBarSubs);
+        binding.progressBarSubs.setVisibility(View.VISIBLE);
         adapter.setBoards(mSubViewModel.getAllBoards());
 
         binding.create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Keyboard.dismissKeyboard(getActivity());
                 binding.progressBar.setVisibility(View.VISIBLE);
                 String name = binding.subname.getText().toString();
                 Board board = new Board("",name, "", "", "", "", 0, "", new Date().getTime()/1000);
@@ -117,4 +121,5 @@ public class SubsFragment extends Fragment {
         return view;
 
     }
+
 }

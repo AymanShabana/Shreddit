@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.github.ponnamkarthik.richlinkpreview.RichLinkView;
+import io.github.ponnamkarthik.richlinkpreview.ViewListener;
 
 public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views.PostAdapter.PostViewHolder> {
     private final LayoutInflater mInflater;
@@ -56,8 +58,29 @@ public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views
                 holder.post_img.setVisibility(View.GONE);
             }
             else {
-                holder.post_img.setVisibility(View.VISIBLE);
-                imageLoader.displayImage(current.getPostImg(), holder.post_img, options);
+                if(current.getType().equals("link")){
+//                    holder.richLinkView.setVisibility(View.VISIBLE);
+//                    holder.post_img.setVisibility(View.GONE);
+//                    holder.richLinkView.setLink(current.getLink(), new ViewListener() {
+//                        @Override
+//                        public void onSuccess(boolean status) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//
+//                        }
+//                    });
+                    holder.richLinkView.setVisibility(View.GONE);
+                    holder.post_img.setVisibility(View.VISIBLE);
+                    holder.post_img.setImageResource(R.drawable.ic_baseline_link2_24);
+                }
+                else{
+                    holder.richLinkView.setVisibility(View.GONE);
+                    holder.post_img.setVisibility(View.VISIBLE);
+                    imageLoader.displayImage(current.getPostImg(), holder.post_img, options);
+                }
             }
             //PostAPIHandler.getSubredditImg(current.getSubreddit(),holder);
         } else {
@@ -91,6 +114,7 @@ public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views
         private final ImageView comments_btn;
         private final TextView comments_lbl;
         private final TextView share_btn;
+        private final RichLinkView richLinkView;
 
         private PostViewHolder(View itemView) {
             super(itemView);
@@ -107,6 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views
             comments_btn = itemView.findViewById(R.id.comments_btn);
             comments_lbl = itemView.findViewById(R.id.comments_lbl);
             share_btn = itemView.findViewById(R.id.share_btn);
+            richLinkView = itemView.findViewById(R.id.richLinkView);
         }
 
     }

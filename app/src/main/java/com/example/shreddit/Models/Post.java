@@ -68,6 +68,55 @@ public class Post {
         this.author = author;
         this.type = type;
     }
+    public Post(){}
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    public void setTitle(@NonNull String title) {
+        this.title = title;
+    }
+
+    public void setBoard(@NonNull String board) {
+        this.board = board;
+    }
+
+    public void setBoardIcon(String boardIcon) {
+        this.boardIcon = boardIcon;
+    }
+
+    public void setPostImg(String postImg) {
+        this.postImg = postImg;
+    }
+
+    public void setSelfText(String selfText) {
+        this.selfText = selfText;
+    }
+
+    public void setUpvotes(int upvotes) {
+        this.upvotes = upvotes;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
+    public void setLink(@NonNull String link) {
+        this.link = link;
+    }
+
+    public void setAuthor(@NonNull String author) {
+        this.author = author;
+    }
+
+    public void setType(@NonNull String type) {
+        this.type = type;
+    }
 
     @NonNull
     public String getId() {

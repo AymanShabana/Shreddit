@@ -4,7 +4,15 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/black">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Views.MainActivity"
-        tools:ignore="NamespaceTypo">
+        tools:ignore="NamespaceTypo"
+        android:background="@color/black"
+        >
 
         <LinearLayout
             android:id="@+id/header"
@@ -66,8 +76,10 @@
                 app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/my_navigation_items" />
         </com.google.android.material.appbar.AppBarLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/post_bottom_sheet" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
     <com.google.android.material.navigation.NavigationView

@@ -47,6 +47,7 @@ public class Board {
         this.description = description;
         this.created = created;
     }
+    public Board(){}
 
     @NonNull
     public String getId() {
@@ -99,5 +100,41 @@ public class Board {
                 ", description='" + description + '\'' +
                 ", created=" + created +
                 '}';
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setHeader_img(String header_img) {
+        this.header_img = header_img;
+    }
+
+    public void setIcon_img(String icon_img) {
+        this.icon_img = icon_img;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setSubscribers(int subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
     }
 }

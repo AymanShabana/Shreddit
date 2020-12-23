@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SubAdapter extends RecyclerView.Adapter<com.example.shreddit.Views.SubAdapter.SubViewHolder> {
     private final LayoutInflater mInflater;
-    private List<Board> mBoards; // Cached copy of boards
+    public List<Board> mBoards; // Cached copy of boards
     private Context context;
 
     public SubAdapter(Context context) {
@@ -49,7 +49,8 @@ public class SubAdapter extends RecyclerView.Adapter<com.example.shreddit.Views.
                     .cacheOnDisk(true)
                     .build();
 
-            imageLoader.displayImage(current.getIcon_img(), holder.subreddit_img, options);
+            if(!current.getIcon_img().isEmpty())
+                imageLoader.displayImage(current.getIcon_img(), holder.subreddit_img, options);
 
         } else {
             holder.subreddit_name.setText("Loading...");

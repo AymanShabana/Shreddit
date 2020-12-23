@@ -8,12 +8,14 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.Views.Initial.RegisterFragment;
+import com.example.shreddit.Views.SubAdapter;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class SubRepo {
         mSubDao = db.subDao();
         fireBaseModel = BoardFireBaseModel.getInstance(application);
         cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
-        mAllBoards = mSubDao.getAllBoards();
+        //mAllBoards = mSubDao.getAllBoards();
     }
 
     public List<Board> getAllBoards() {
@@ -40,9 +42,10 @@ public class SubRepo {
                 mAllBoards = fireBaseModel.getAllBoards();
             }
             else{
-                mAllBoards = mSubDao.getAllBoards();
+                //mAllBoards = mSubDao.getAllBoards();
             }
         }
+        mAllBoards = fireBaseModel.getAllBoards();
         return mAllBoards;
     }
 
@@ -56,6 +59,11 @@ public class SubRepo {
 
     public void deleteBoards(Board... boards) {
         mSubDao.deleteBoards(boards);
+    }
+
+    public void sendAdapter(SubAdapter adapter, ProgressBar progressBarSubs) {
+        fireBaseModel.subAdapter = adapter;
+        fireBaseModel.progressBar = progressBarSubs;
     }
 
     private static class insertAsyncTask extends AsyncTask<Board, Void, Void> {

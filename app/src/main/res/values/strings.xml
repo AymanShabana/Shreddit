@@ -9,4 +9,9 @@
     <string name="menu_post">Post</string>
     <string name="menu_chat">Chat</string>
     <string name="menu_notif">Notifications</string>
+    <string name="post_bottom_sheet_title">Post to Shreddit</string>
+    <string name="link_txt">Link</string>
+    <string name="image_txt">Image</string>
+    <string name="video_txt">Video</string>
+    <string name="text_txt">Text</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.shreddit.Views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,16 +8,22 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.shreddit.R;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.Views.Initial.InitialActivity;
+import com.example.shreddit.Views.Postings.LinkPostActivity;
 import com.example.shreddit.databinding.ActivityMainBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private Fragment selectorFragment;
     private Fragment homeFragment;
+    BottomSheetBehavior sheetBehavior;
+    private Fragment subsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +31,31 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        sheetBehavior = BottomSheetBehavior.from(findViewById(R.id.post_bottom_sheet));
+        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new HomeFragment()).commit();
         binding.navigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -33,10 +65,14 @@ public class MainActivity extends AppCompatActivity {
                     selectorFragment = homeFragment;
                     break;
                 case R.id.action_subs:
-                    selectorFragment = new SubsFragment();
+                    if(subsFragment == null)
+                        subsFragment = new SubsFragment();
+                    selectorFragment = subsFragment;
                     break;
                 case R.id.action_post:
-                    selectorFragment = new PostFragment();
+                    if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
                     break;
                 case R.id.action_notif:
                     selectorFragment = new NotifFragment();
@@ -45,8 +81,18 @@ public class MainActivity extends AppCompatActivity {
                     selectorFragment = new ChatFragment();
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,selectorFragment).commit();
+            if(selectorFragment!=null)
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,selectorFragment).commit();
             return true;
+        });
+        ImageView btmSheetClose = findViewById(R.id.bottom_sheet_close);
+        btmSheetClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
         });
 
         //delete this
@@ -59,6 +105,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
 
+            }
+        });
+    }
+    public void openLinkPost(View view){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), LinkPostActivity.class);
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                startActivity(i);
             }
         });
     }
