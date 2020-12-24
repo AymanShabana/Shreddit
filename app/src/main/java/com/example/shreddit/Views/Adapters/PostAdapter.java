@@ -1,4 +1,4 @@
-package com.example.shreddit.Views;
+package com.example.shreddit.Views.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,26 +20,28 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.ponnamkarthik.richlinkpreview.RichLinkView;
-import io.github.ponnamkarthik.richlinkpreview.ViewListener;
 
-public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views.PostAdapter.PostViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private final LayoutInflater mInflater;
     private List<Post> mPosts; // Cached copy of posts
     private Context context;
-    public PostAdapter(Context context) {
+    private OnItemClickListener listener;
+
+    public PostAdapter(Context context, OnItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public com.example.shreddit.Views.PostAdapter.PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PostAdapter.PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.post_item, parent, false);
         return new PostViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.shreddit.Views.PostAdapter.PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PostAdapter.PostViewHolder holder, int position) {
         if (mPosts != null) {
             Post current = mPosts.get(position);
             holder.subreddit_name.setText(current.getBoard());
@@ -54,34 +56,55 @@ public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .build();
-            if(!current.getPostImg().startsWith("http")) {
-                holder.post_img.setVisibility(View.GONE);
-            }
-            else {
-                if(current.getType().equals("link")){
-//                    holder.richLinkView.setVisibility(View.VISIBLE);
-//                    holder.post_img.setVisibility(View.GONE);
-//                    holder.richLinkView.setLink(current.getLink(), new ViewListener() {
-//                        @Override
-//                        public void onSuccess(boolean status) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(Exception e) {
-//
-//                        }
-//                    });
+            switch (current.getType()){
+                case "link":
                     holder.richLinkView.setVisibility(View.GONE);
                     holder.post_img.setVisibility(View.VISIBLE);
                     holder.post_img.setImageResource(R.drawable.ic_baseline_link2_24);
-                }
-                else{
+                    break;
+                case "image":
                     holder.richLinkView.setVisibility(View.GONE);
                     holder.post_img.setVisibility(View.VISIBLE);
                     imageLoader.displayImage(current.getPostImg(), holder.post_img, options);
-                }
+                    break;
+                case "text":
+                    holder.post_img.setVisibility(View.GONE);
+                    break;
+                case "video":
+                    holder.richLinkView.setVisibility(View.GONE);
+                    holder.post_img.setVisibility(View.VISIBLE);
+                    holder.post_img.setImageResource(R.drawable.ic_baseline_videocam_w_24);
+                    break;
             }
+            holder.bind(current,listener);
+//            if(!current.getPostImg().startsWith("http")) {
+//                holder.post_img.setVisibility(View.GONE);
+//            }
+//            else {
+//                if(current.getType().equals("link")){
+////                    holder.richLinkView.setVisibility(View.VISIBLE);
+////                    holder.post_img.setVisibility(View.GONE);
+////                    holder.richLinkView.setLink(current.getLink(), new ViewListener() {
+////                        @Override
+////                        public void onSuccess(boolean status) {
+////
+////                        }
+////
+////                        @Override
+////                        public void onError(Exception e) {
+////
+////                        }
+////                    });
+//                    holder.richLinkView.setVisibility(View.GONE);
+//                    holder.post_img.setVisibility(View.VISIBLE);
+//                    holder.post_img.setImageResource(R.drawable.ic_baseline_link2_24);
+//                }
+//                else{
+//                    holder.richLinkView.setVisibility(View.GONE);
+//                    holder.post_img.setVisibility(View.VISIBLE);
+//                    imageLoader.displayImage(current.getPostImg(), holder.post_img, options);
+//                }
+//            }
             //PostAPIHandler.getSubredditImg(current.getSubreddit(),holder);
         } else {
             holder.subreddit_name.setText("Loading...");
@@ -134,5 +157,17 @@ public class PostAdapter extends RecyclerView.Adapter<com.example.shreddit.Views
             richLinkView = itemView.findViewById(R.id.richLinkView);
         }
 
+        public void bind(Post current, OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(current);
+                }
+            });
+        }
     }
+    public interface OnItemClickListener{
+        void onItemClick(Post post);
+    }
+
 }

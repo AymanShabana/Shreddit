@@ -2,19 +2,13 @@ package com.example.shreddit.ViewModels;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.shreddit.Models.Board;
-import com.example.shreddit.Models.BoardFireBaseModel;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.PostingModel;
-import com.example.shreddit.Models.SubDao;
-import com.example.shreddit.Models.SubRepo;
 import com.example.shreddit.Utils.MyCallbackInterface;
-import com.example.shreddit.Views.SubAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class PostingViewModel extends AndroidViewModel {

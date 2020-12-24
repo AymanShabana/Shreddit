@@ -5,10 +5,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "post_table")
-public class Post {
+public class Post implements Serializable {
     @PrimaryKey
     @NonNull
     public String id;

@@ -8,47 +8,46 @@ import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.widget.ProgressBar;
 
+import com.example.shreddit.Utils.MyCallbackInterface;
+import com.example.shreddit.Views.Adapters.CommentAdapter;
 import com.example.shreddit.Views.Adapters.PostAdapter;
 
 import java.util.List;
 
-public class PostRepo {
-    private PostDao mPostDao;
-    private PostFirebaseModel fireBaseModel;
-    private List<Post> mAllPosts;
+public class PostDetailsRepo {
+    private PostDetailsFirebaseModel fireBaseModel;
+    private List<Comment> mAllComments;
     private ConnectivityManager cm;
-
-    public PostRepo(Application application) {
-        PostDB db = PostDB.getDatabase(application);
-        mPostDao = db.postDao();
-        //mAllPosts = mPostDao.getAllPosts();
-        fireBaseModel = PostFirebaseModel.getInstance(application);
+    public PostDetailsRepo(Application application, String postId) {
+        fireBaseModel = PostDetailsFirebaseModel.getInstance(application,postId);
         cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
 
     }
-    public void updatePost(Post post){ mPostDao.updatePost(post);}
-    public void deletePosts(Post... posts){ mPostDao.deletePosts(posts);}
 
-    public List<Post> getAllPosts() {
+    public List<Comment> getAllComments() {
         if(Build.VERSION.SDK_INT >= 23){
             Network activeNetwork = cm.getActiveNetwork();
             NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(activeNetwork);
             boolean validated = networkCapabilities == null
                     || !networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
             if(validated) {
-                mAllPosts = fireBaseModel.getAllPosts();
+                mAllComments = fireBaseModel.getAllComments();
             }
             else{
                 //mAllPosts = mPostDao.getAllPosts();
             }
         }
-        mAllPosts = fireBaseModel.getAllPosts();
-        return mAllPosts;
+        mAllComments = fireBaseModel.getAllComments();
+        return mAllComments;
     }
 
+    public void insert(Comment comment, MyCallbackInterface success) {
+        fireBaseModel.insert(comment,success);
+    }
 
-    public void sendAdapter(PostAdapter adapter, ProgressBar progressBarSubs) {
+    public void sendAdapter(CommentAdapter adapter, ProgressBar progressBarSubs) {
         fireBaseModel.adapter = adapter;
         fireBaseModel.progressBar = progressBarSubs;
     }
+
 }

@@ -4,31 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.shreddit.Models.Board;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostingViewModel;
-import com.example.shreddit.ViewModels.SubViewModel;
 import com.example.shreddit.databinding.ActivityLinkPostBinding;
-import com.example.shreddit.databinding.ActivityMainBinding;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.shreddit.databinding.ActivityTextPostBinding;
 
 import java.util.Date;
 
-public class LinkPostActivity extends AppCompatActivity {
-    private ActivityLinkPostBinding binding;
+public class TextPostActivity extends AppCompatActivity {
+    private ActivityTextPostBinding binding;
     private PostingViewModel postingViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_link_post);
-        binding = ActivityLinkPostBinding.inflate(getLayoutInflater());
+        setContentView(R.layout.activity_text_post);
+        binding = ActivityTextPostBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         postingViewModel = new ViewModelProvider(this).get(PostingViewModel.class);
@@ -43,13 +39,13 @@ public class LinkPostActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String board = binding.subName.getText().toString();
                 String title = binding.titleTxt.getText().toString();
-                String link = binding.linkTxt.getText().toString();
-                if(board.isEmpty() || title.isEmpty() || link.isEmpty()){
-                    Toast.makeText(LinkPostActivity.this, "Fill all the textboxes.", Toast.LENGTH_SHORT).show();
+                String text = binding.textArea.getText().toString();
+                if(board.isEmpty() || title.isEmpty() || text.isEmpty()){
+                    Toast.makeText(TextPostActivity.this, "Fill all the textboxes.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 binding.progressBar.setVisibility(View.VISIBLE);
-                Post post = new Post("",title,board,"https://","https://","",0,0,new Date().getTime()/1000,link,"","link");
+                Post post = new Post("",title,board,"https://","https://",text,0,0,new Date().getTime()/1000,"","","text");
                 postingViewModel.insert(post,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {

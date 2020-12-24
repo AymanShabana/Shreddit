@@ -1,4 +1,4 @@
-package com.example.shreddit.Views;
+package com.example.shreddit.Views.Main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +13,10 @@ import android.widget.ImageView;
 import com.example.shreddit.R;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.Views.Initial.InitialActivity;
+import com.example.shreddit.Views.Postings.ImagePostActivity;
 import com.example.shreddit.Views.Postings.LinkPostActivity;
+import com.example.shreddit.Views.Postings.TextPostActivity;
+import com.example.shreddit.Views.Postings.VideoPostActivity;
 import com.example.shreddit.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -94,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        openLinkPost(findViewById(R.id.link_icon));
+        openLinkPost(findViewById(R.id.link_lbl));
+        openImagePost(findViewById(R.id.image_icon));
+        openImagePost(findViewById(R.id.image_lbl));
+        openVideoPost(findViewById(R.id.video_icon));
+        openVideoPost(findViewById(R.id.video_lbl));
+        openTextPost(findViewById(R.id.text_icon));
+        openTextPost(findViewById(R.id.text_lbl));
 
         //delete this
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +124,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), LinkPostActivity.class);
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                startActivity(i);
+            }
+        });
+    }
+    public void openTextPost(View view){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), TextPostActivity.class);
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                startActivity(i);
+            }
+        });
+    }
+    public void openImagePost(View view){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ImagePostActivity.class);
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                startActivity(i);
+            }
+        });
+    }
+    public void openVideoPost(View view){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), VideoPostActivity.class);
                 if (sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED) {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }

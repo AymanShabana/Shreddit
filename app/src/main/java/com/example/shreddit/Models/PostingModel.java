@@ -8,8 +8,11 @@ import com.example.shreddit.Utils.MyCallbackInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -48,19 +51,36 @@ public class PostingModel {
         map.put("author",post.getAuthor());
         map.put("link",post.getLink());
         map.put("created",post.getCreated());
-        String postId = mRootRef.child("Posts").push().getKey();
-        map.put("id",postId);
+        mRootRef.child("Boards").orderByChild("name").equalTo(post.getBoard())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            String postId = mRootRef.child("Posts").push().getKey();
+                            map.put("id",postId);
 
-        mRootRef.child("Posts").child(postId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                cb.onAuthFinished("success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                cb.onAuthFinished(e.getLocalizedMessage());
-            }
-        });
+                            mRootRef.child("Posts").child(postId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    cb.onAuthFinished("success");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    cb.onAuthFinished(e.getLocalizedMessage());
+                                }
+                            });
+                        }
+                        else{
+                            cb.onAuthFinished("Board does not exit.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 }

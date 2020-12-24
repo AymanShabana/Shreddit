@@ -5,15 +5,11 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import com.example.shreddit.Models.Board;
-import com.example.shreddit.Models.Post;
-import com.example.shreddit.Models.PostRepo;
 import com.example.shreddit.Models.SubRepo;
 import com.example.shreddit.Utils.MyCallbackInterface;
-import com.example.shreddit.Views.Initial.RegisterFragment;
-import com.example.shreddit.Views.SubAdapter;
+import com.example.shreddit.Views.Adapters.SubAdapter;
 
 import java.util.List;
 

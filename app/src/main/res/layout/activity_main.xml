@@ -20,7 +20,7 @@
         android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Views.MainActivity"
+        tools:context=".Views.Main.MainActivity"
         tools:ignore="NamespaceTypo"
         android:background="@color/black"
         >

@@ -24,6 +24,6 @@ public interface PostDao {
     void deleteAll();
 
     @Query("SELECT * from post_table ORDER BY created DESC")
-    LiveData<List<Post>> getAllPosts();
+    List<Post> getAllPosts();
 
 }

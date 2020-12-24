@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.example.shreddit.R;
 import com.example.shreddit.ViewModels.InitialViewModel;
-import com.example.shreddit.Views.MainActivity;
+import com.example.shreddit.Views.Main.MainActivity;
 
 public class InitialActivity extends AppCompatActivity {
     private InitialViewModel mInitialViewModel;

@@ -1,37 +1,29 @@
-package com.example.shreddit.Views;
+package com.example.shreddit.Views.Main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
-import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.Keyboard;
 import com.example.shreddit.Utils.MyCallbackInterface;
-import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.ViewModels.SubViewModel;
-import com.example.shreddit.Views.Initial.RegisterFragment;
-import com.example.shreddit.databinding.FragmentLoginBinding;
+import com.example.shreddit.Views.Adapters.SubAdapter;
 import com.example.shreddit.databinding.FragmentSubsBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.example.shreddit.Views.SubsFragment#newInstance} factory method to
+ * Use the {@link SubsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class SubsFragment extends Fragment {
@@ -62,8 +54,8 @@ public class SubsFragment extends Fragment {
      * @return A new instance of fragment SubsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.example.shreddit.Views.SubsFragment newInstance(String param1, String param2) {
-        com.example.shreddit.Views.SubsFragment fragment = new com.example.shreddit.Views.SubsFragment();
+    public static SubsFragment newInstance(String param1, String param2) {
+        SubsFragment fragment = new SubsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

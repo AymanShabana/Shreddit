@@ -1,14 +1,12 @@
-package com.example.shreddit.Views;
+package com.example.shreddit.Views.Main;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,16 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
 import com.example.shreddit.ViewModels.PostViewModel;
+import com.example.shreddit.Views.Adapters.PostAdapter;
+import com.example.shreddit.Views.PostDetailsActivity;
+import com.example.shreddit.databinding.FragmentHomeBinding;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.HashMap;
+import net.alhazmy13.mediapicker.Video.VideoActivity;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.example.shreddit.Views.HomeFragment#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
@@ -40,6 +41,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
     private PostViewModel mPostViewModel;
     private PostAdapter adapter;
+    private FragmentHomeBinding binding;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -53,8 +55,8 @@ public class HomeFragment extends Fragment {
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.example.shreddit.Views.HomeFragment newInstance(String param1, String param2) {
-        com.example.shreddit.Views.HomeFragment fragment = new com.example.shreddit.Views.HomeFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,22 +84,36 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+       // View view = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new PostAdapter(getContext());
+        adapter = new PostAdapter(getContext(),new PostAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Post post) {
+                //Toast.makeText(ViewRequestsActivity.this, request.getRequesterId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), PostDetailsActivity.class);
+                intent.putExtra("post", post);
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mPostViewModel = new ViewModelProvider(this).get(PostViewModel.class);
 //        Log.i("LOG_RESPONSE_HF",mPostViewModel.getAllPosts().get(0).toString());
-        mPostViewModel.getAllPosts().observe(getActivity(), new Observer<List<Post>>() {
-            @Override
-            public void onChanged(@Nullable final List<Post> posts) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setPosts(posts);
-            }
-        });
+        mPostViewModel.sendAdapter(adapter,binding.progressBarSubs);
+        binding.progressBarSubs.setVisibility(View.VISIBLE);
+        adapter.setPosts(mPostViewModel.getAllPosts());
+
+//        mPostViewModel.getAllPosts().observe(getActivity(), new Observer<List<Post>>() {
+//            @Override
+//            public void onChanged(@Nullable final List<Post> posts) {
+//                // Update the cached copy of the words in the adapter.
+//                adapter.setPosts(posts);
+//            }
+//        });
 
         return view;
     }

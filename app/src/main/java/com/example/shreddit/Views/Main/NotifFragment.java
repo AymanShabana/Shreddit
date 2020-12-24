@@ -1,4 +1,4 @@
-package com.example.shreddit.Views;
+package com.example.shreddit.Views.Main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import com.example.shreddit.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.example.shreddit.Views.NotifFragment#newInstance} factory method to
+ * Use the {@link NotifFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class NotifFragment extends Fragment {
@@ -38,8 +38,8 @@ public class NotifFragment extends Fragment {
      * @return A new instance of fragment NotifFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.example.shreddit.Views.NotifFragment newInstance(String param1, String param2) {
-        com.example.shreddit.Views.NotifFragment fragment = new com.example.shreddit.Views.NotifFragment();
+    public static NotifFragment newInstance(String param1, String param2) {
+        NotifFragment fragment = new NotifFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

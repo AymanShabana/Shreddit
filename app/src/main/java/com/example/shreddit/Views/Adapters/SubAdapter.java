@@ -1,18 +1,15 @@
-package com.example.shreddit.Views;
+package com.example.shreddit.Views.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
-import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -21,7 +18,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SubAdapter extends RecyclerView.Adapter<com.example.shreddit.Views.SubAdapter.SubViewHolder> {
+public class SubAdapter extends RecyclerView.Adapter<SubAdapter.SubViewHolder> {
     private final LayoutInflater mInflater;
     public List<Board> mBoards; // Cached copy of boards
     private Context context;
@@ -33,13 +30,13 @@ public class SubAdapter extends RecyclerView.Adapter<com.example.shreddit.Views.
 
     @NonNull
     @Override
-    public com.example.shreddit.Views.SubAdapter.SubViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubAdapter.SubViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.sub_item, parent, false);
         return new SubViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.shreddit.Views.SubAdapter.SubViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubAdapter.SubViewHolder holder, int position) {
         if (mBoards != null) {
             Board current = mBoards.get(position);
             holder.subreddit_name.setText(current.getName());

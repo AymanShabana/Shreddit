@@ -5,17 +5,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.widget.ProgressBar;
 
-import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
-
 import com.example.shreddit.Utils.MyCallbackInterface;
-import com.example.shreddit.Views.Initial.RegisterFragment;
-import com.example.shreddit.Views.SubAdapter;
+import com.example.shreddit.Views.Adapters.SubAdapter;
 
 import java.util.List;
 

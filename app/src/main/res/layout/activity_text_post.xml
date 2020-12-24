@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Views.Postings.ImagePostActivity">
+    tools:context=".Views.Postings.TextPostActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="Image post"
+            android:text="Text post"
             android:textSize="20sp"
             android:gravity="center"
             android:layout_marginLeft="20dp"/>
@@ -48,11 +48,14 @@
         android:hint="An interesting title"
         android:id="@+id/title_txt"
         android:layout_marginBottom="10dp"/>
-    <ImageView
+    <EditText
+        android:id="@+id/text_area"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/post_image"/>
-
+        android:layout_height="150dp"
+        android:inputType="text|textMultiLine"
+        android:gravity="top"
+        android:hint="Your text post (optional)"
+        />
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="150dp"
