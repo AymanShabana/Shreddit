@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.widget.ProgressBar;
 
+import com.example.shreddit.Views.Adapters.BoardAdapter;
 import com.example.shreddit.Views.Adapters.PostAdapter;
 
 import java.util.List;
@@ -50,5 +51,11 @@ public class PostRepo {
     public void sendAdapter(PostAdapter adapter, ProgressBar progressBarSubs) {
         fireBaseModel.adapter = adapter;
         fireBaseModel.progressBar = progressBarSubs;
+    }
+
+    public void sendAdapterBoard(BoardAdapter adapter, ProgressBar progressBarSubs) {
+        fireBaseModel.adapterBoard = adapter;
+        fireBaseModel.progressBarBoard = progressBarSubs;
+
     }
 }

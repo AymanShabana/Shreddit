@@ -50,4 +50,7 @@ public class PostDetailsRepo {
         fireBaseModel.progressBar = progressBarSubs;
     }
 
+    public void clean() {
+        PostDetailsFirebaseModel.INSTANCE=null;
+    }
 }

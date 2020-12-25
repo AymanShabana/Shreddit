@@ -88,7 +88,7 @@
             <ImageView
                 android:id="@+id/post_img"
                 android:visibility="visible"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:src="@mipmap/ic_launcher"
                 android:padding="10dp"

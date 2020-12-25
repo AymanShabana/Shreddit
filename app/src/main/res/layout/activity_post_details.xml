@@ -144,9 +144,19 @@
         android:padding="5dp"
         android:textColor="@color/white"
         android:layout_margin="5dp"/>
+    <ProgressBar
+        android:id="@+id/progressBarSubs"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/orange_700"
+        android:indeterminateTintMode="src_in"
+        android:visibility="gone"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/comments_recycler_view"/>
 </LinearLayout>
     </ScrollView>
 <LinearLayout
@@ -171,11 +181,24 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_weight="8"
+        android:id="@+id/comment_box"
         />
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/ic_baseline_play_arrow_24"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:id="@+id/comment_btn"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/orange_700"
+        android:indeterminateTintMode="src_in"
+        android:layout_weight="1"
+        android:visibility="gone"
+        />
+
 </LinearLayout>
 </LinearLayout>

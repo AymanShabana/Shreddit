@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.example.shreddit.Views.Adapters.BoardAdapter;
 import com.example.shreddit.Views.Adapters.PostAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,11 +22,14 @@ import java.util.List;
 
 public class PostFirebaseModel {
     public ProgressBar progressBar;
+    public ProgressBar progressBarBoard;
+    public BoardAdapter adapterBoard;
     private DatabaseReference mRootRef;
     //FirebaseFirestore db;
     private static PostFirebaseModel INSTANCE;
     private static Context mContext;
     private List<Post> mPostList;
+    private List<Post> mBoardPostList;
     PostAdapter adapter;
     public static PostFirebaseModel getInstance(final Context context) {
         mContext = context;
@@ -44,6 +48,7 @@ public class PostFirebaseModel {
         this.mRootRef = database.getReference();
         //this.db = FirebaseFirestore.getInstance();
         this.mPostList = new ArrayList<Post>();
+        this.mBoardPostList = new ArrayList<Post>();
         mRootRef.child("Posts").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -79,5 +84,15 @@ public class PostFirebaseModel {
         }
         return mPostList;
     }
+    public List<Post> getAllPostsBoard() {
+        if(!mBoardPostList.isEmpty() && progressBar!=null)
+            progressBar.setVisibility(View.GONE);
+        if(adapter!=null){
+            adapter.notifyDataSetChanged();
+            adapter.setPosts(mPostList);
+        }
+        return mPostList;
+    }
+
 
 }

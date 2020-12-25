@@ -1,23 +1,41 @@
 package com.example.shreddit.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.MediaController;
+import android.widget.Toast;
 
+import com.example.shreddit.Models.Comment;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
+import com.example.shreddit.ViewModels.PostDetailsViewModel;
+import com.example.shreddit.ViewModels.PostDetailsViewModelFactory;
+import com.example.shreddit.ViewModels.SubViewModel;
+import com.example.shreddit.Views.Adapters.CommentAdapter;
+import com.example.shreddit.Views.Adapters.SubAdapter;
 import com.example.shreddit.databinding.ActivityPostDetailsBinding;
 import com.example.shreddit.databinding.ActivityTextPostBinding;
+import com.example.shreddit.databinding.FragmentSubsBinding;
+import com.google.android.material.snackbar.Snackbar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.Date;
 
 public class PostDetailsActivity extends AppCompatActivity {
 
     private ActivityPostDetailsBinding binding;
+    private PostDetailsViewModel postDetailsViewModel;
+    private CommentAdapter adapter;
+
     private Post post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +91,49 @@ public class PostDetailsActivity extends AppCompatActivity {
                 break;
 
         }
+        RecyclerView recyclerView = view.findViewById(R.id.comments_recycler_view);
+        adapter = new CommentAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        postDetailsViewModel = new ViewModelProvider(this, new PostDetailsViewModelFactory(this.getApplication(),post.getId())).get(PostDetailsViewModel.class);
+        postDetailsViewModel.sendAdapter(adapter,binding.progressBarSubs);
+        binding.progressBarSubs.setVisibility(View.VISIBLE);
+        adapter.setComments(postDetailsViewModel.getAllComments());
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        binding.commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment = binding.commentBox.getText().toString();
+                if(!comment.isEmpty()){
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    binding.commentBtn.setVisibility(View.GONE);
+                    binding.commentBox.setText("");
+                    Comment newComment = new Comment("","","",comment,0,new Date().getTime()/1000);
+                    postDetailsViewModel.insert(newComment, new MyCallbackInterface() {
+                        @Override
+                        public void onAuthFinished(String result) {
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.commentBtn.setVisibility(View.VISIBLE);
+                            if(result.equals("success")){
+                                //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(PostDetailsActivity.this, "Error: "+result, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(PostDetailsActivity.this, "Please add a comment first.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
     public class WebViewController extends WebViewClient {
@@ -84,4 +145,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        postDetailsViewModel.clean();
+    }
 }

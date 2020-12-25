@@ -15,7 +15,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shreddit">
-        <activity android:name=".Views.PostDetailsActivity"></activity>
+        <activity android:name=".Views.BoardActivity"></activity>
+        <activity android:name=".Views.PostDetailsActivity" />
         <activity android:name=".Views.Postings.TextPostActivity" />
         <activity android:name=".Views.Postings.VideoPostActivity" />
         <activity android:name=".Views.Postings.ImagePostActivity" />

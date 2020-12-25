@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.PostRepo;
+import com.example.shreddit.Views.Adapters.BoardAdapter;
 import com.example.shreddit.Views.Adapters.PostAdapter;
 
 import java.util.List;
@@ -28,4 +29,8 @@ public class PostViewModel extends AndroidViewModel {
     public void sendAdapter(PostAdapter adapter, ProgressBar progressBarSubs) {
         mRepository.sendAdapter(adapter, progressBarSubs);
     }
+    public void sendAdapterBoard(BoardAdapter adapter, ProgressBar progressBarSubs) {
+        mRepository.sendAdapterBoard(adapter, progressBarSubs);
+    }
+
 }

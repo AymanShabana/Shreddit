@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.Views.Adapters.CommentAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,12 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PostDetailsFirebaseModel {
     public ProgressBar progressBar;
     private DatabaseReference mRootRef;
-    private static PostDetailsFirebaseModel INSTANCE;
+    public static PostDetailsFirebaseModel INSTANCE;
     private static Context mContext;
     private List<Comment> mCommentList;
     private String postId;
@@ -68,7 +72,43 @@ public class PostDetailsFirebaseModel {
         });
     }
 
-    public void insert(Comment comment, MyCallbackInterface success) {
+    public void insert(Comment comment, MyCallbackInterface cb) {
+        HashMap<String,Object> map = new HashMap<String, Object>();
+        map.put("author",comment.getAuthor());
+        map.put("comment",comment.getComment());
+        map.put("upvotes",comment.getUpvotes());
+        map.put("icon_img",comment.getIcon_img());
+        map.put("created",comment.getCreated());
+        mRootRef.child("Posts").child(postId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getValue() != null){
+                            String commentId = mRootRef.child("Comments").child(postId).push().getKey();
+                            map.put("id",commentId);
+
+                            mRootRef.child("Comments").child(postId).child(commentId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    cb.onAuthFinished("success");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    cb.onAuthFinished(e.getLocalizedMessage());
+                                }
+                            });
+                        }
+                        else{
+                            cb.onAuthFinished("Post does not exist.");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
     }
 
@@ -77,7 +117,7 @@ public class PostDetailsFirebaseModel {
             progressBar.setVisibility(View.GONE);
         if(adapter!=null){
             adapter.notifyDataSetChanged();
-            adapter.setPosts(mCommentList);
+            adapter.setComments(mCommentList);
         }
         return mCommentList;
     }

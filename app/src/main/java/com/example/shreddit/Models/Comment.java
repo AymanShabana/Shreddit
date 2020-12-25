@@ -20,6 +20,9 @@ public class Comment {
     @ColumnInfo(name = "icon_img")
     private String icon_img;
 
+    @ColumnInfo(name = "comment")
+    private String comment;
+
     @ColumnInfo(name = "upvotes")
     private int upvotes;
 
@@ -34,15 +37,24 @@ public class Comment {
         this.upvotes = upvotes;
     }
 
-    public Comment(@NonNull String id, @NonNull String author, String icon_img, int upvotes, long created) {
+    public Comment(@NonNull String id, @NonNull String author, String icon_img, String comment, int upvotes, long created) {
         this.id = id;
         this.author = author;
         this.icon_img = icon_img;
+        this.comment = comment;
         this.upvotes = upvotes;
         this.created = created;
     }
 
     public Comment() {
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @NonNull
