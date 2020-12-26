@@ -1,6 +1,7 @@
 package com.example.shreddit.Views.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
+import com.example.shreddit.Views.BoardActivity;
+import com.example.shreddit.Views.PostDetailsActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -77,35 +80,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     break;
             }
             holder.bind(current,listener);
-//            if(!current.getPostImg().startsWith("http")) {
-//                holder.post_img.setVisibility(View.GONE);
-//            }
-//            else {
-//                if(current.getType().equals("link")){
-////                    holder.richLinkView.setVisibility(View.VISIBLE);
-////                    holder.post_img.setVisibility(View.GONE);
-////                    holder.richLinkView.setLink(current.getLink(), new ViewListener() {
-////                        @Override
-////                        public void onSuccess(boolean status) {
-////
-////                        }
-////
-////                        @Override
-////                        public void onError(Exception e) {
-////
-////                        }
-////                    });
-//                    holder.richLinkView.setVisibility(View.GONE);
-//                    holder.post_img.setVisibility(View.VISIBLE);
-//                    holder.post_img.setImageResource(R.drawable.ic_baseline_link2_24);
-//                }
-//                else{
-//                    holder.richLinkView.setVisibility(View.GONE);
-//                    holder.post_img.setVisibility(View.VISIBLE);
-//                    imageLoader.displayImage(current.getPostImg(), holder.post_img, options);
-//                }
-//            }
-            //PostAPIHandler.getSubredditImg(current.getSubreddit(),holder);
+            holder.subreddit_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, BoardActivity.class);
+                    intent.putExtra("board", holder.subreddit_name.getText().toString());
+                    context.startActivity(intent);
+                }
+            });
         } else {
             holder.subreddit_name.setText("Loading...");
         }

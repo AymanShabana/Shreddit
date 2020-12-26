@@ -30,6 +30,8 @@ public class PostFirebaseModel {
     private static Context mContext;
     private List<Post> mPostList;
     private List<Post> mBoardPostList;
+    private ValueEventListener listener;
+    String mBoard;
     PostAdapter adapter;
     public static PostFirebaseModel getInstance(final Context context) {
         mContext = context;
@@ -72,6 +74,28 @@ public class PostFirebaseModel {
             }
 
         });
+        listener= new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mBoardPostList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post post = dataSnapshot.getValue(Post.class);
+                    mBoardPostList.add(post);
+                }
+                if(progressBarBoard!=null)
+                    progressBarBoard.setVisibility(View.GONE);
+                if(adapterBoard!=null){
+                    adapterBoard.notifyDataSetChanged();
+                    adapterBoard.setPosts(mBoardPostList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
     }
 
 
@@ -84,14 +108,22 @@ public class PostFirebaseModel {
         }
         return mPostList;
     }
-    public List<Post> getAllPostsBoard() {
-        if(!mBoardPostList.isEmpty() && progressBar!=null)
-            progressBar.setVisibility(View.GONE);
-        if(adapter!=null){
-            adapter.notifyDataSetChanged();
-            adapter.setPosts(mPostList);
+    public List<Post> getAllPostsBoard(String board) {
+        try{
+            mRootRef.child("Posts").orderByChild("board").equalTo(mBoard).removeEventListener(listener);
+        }catch (Exception e){
+
         }
-        return mPostList;
+        mBoard=board;
+        mRootRef.child("Posts").orderByChild("board").equalTo(mBoard)
+                .addValueEventListener(listener);
+        if(!mBoardPostList.isEmpty() && progressBarBoard!=null)
+            progressBarBoard.setVisibility(View.GONE);
+        if(adapterBoard!=null){
+            adapterBoard.notifyDataSetChanged();
+            adapterBoard.setPosts(mBoardPostList);
+        }
+        return mBoardPostList;
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.shreddit.Views.Main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
+import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.Keyboard;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.SubViewModel;
+import com.example.shreddit.Views.Adapters.PostAdapter;
 import com.example.shreddit.Views.Adapters.SubAdapter;
+import com.example.shreddit.Views.BoardActivity;
+import com.example.shreddit.Views.PostDetailsActivity;
 import com.example.shreddit.databinding.FragmentSubsBinding;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -79,7 +84,15 @@ public class SubsFragment extends Fragment {
         binding = FragmentSubsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         RecyclerView recyclerView = view.findViewById(R.id.sub_recycler_view);
-        adapter = new SubAdapter(getContext());
+        adapter = new SubAdapter(getContext(),new SubAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Board board) {
+                //Toast.makeText(ViewRequestsActivity.this, request.getRequesterId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), BoardActivity.class);
+                intent.putExtra("board", board.getName());
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSubViewModel = new ViewModelProvider(this).get(SubViewModel.class);

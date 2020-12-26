@@ -16,6 +16,7 @@ import java.util.List;
 public class PostViewModel extends AndroidViewModel {
     private PostRepo mRepository;
     private List<Post> mAllPosts;
+    private List<Post> mAllBoardPosts;
     public PostViewModel(@NonNull Application application) {
         super(application);
         mRepository = new PostRepo(application);
@@ -31,6 +32,10 @@ public class PostViewModel extends AndroidViewModel {
     }
     public void sendAdapterBoard(BoardAdapter adapter, ProgressBar progressBarSubs) {
         mRepository.sendAdapterBoard(adapter, progressBarSubs);
+    }
+    public List<Post> getAllBoardPosts(String board) {
+        mAllBoardPosts = mRepository.getAllPostsBoard(board);
+        return mAllBoardPosts;
     }
 
 }

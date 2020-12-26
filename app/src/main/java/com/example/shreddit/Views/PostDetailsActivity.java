@@ -121,6 +121,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                             binding.commentBtn.setVisibility(View.VISIBLE);
                             if(result.equals("success")){
                                 //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                                binding.commentsLbl.setText((Integer.parseInt(binding.commentsLbl.getText().toString())+1)+"");
                             }
                             else{
                                 Toast.makeText(PostDetailsActivity.this, "Error: "+result, Toast.LENGTH_SHORT).show();

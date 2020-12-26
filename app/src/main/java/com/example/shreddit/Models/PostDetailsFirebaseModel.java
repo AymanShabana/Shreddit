@@ -84,18 +84,31 @@ public class PostDetailsFirebaseModel {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.getValue() != null){
-                            String commentId = mRootRef.child("Comments").child(postId).push().getKey();
-                            map.put("id",commentId);
+                            mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Post post = snapshot.getValue(Post.class);
+                                    post.setComments(post.getComments()+1);
+                                    mRootRef.child("Posts").child(postId).setValue(post);
+                                    String commentId = mRootRef.child("Comments").child(postId).push().getKey();
+                                    map.put("id",commentId);
 
-                            mRootRef.child("Comments").child(postId).child(commentId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    cb.onAuthFinished("success");
+                                    mRootRef.child("Comments").child(postId).child(commentId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            cb.onAuthFinished("success");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            cb.onAuthFinished(e.getLocalizedMessage());
+                                        }
+                                    });
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    cb.onAuthFinished(e.getLocalizedMessage());
+                                public void onCancelled(@NonNull DatabaseError error) {
+
                                 }
                             });
                         }

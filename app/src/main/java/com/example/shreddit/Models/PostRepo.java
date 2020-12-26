@@ -17,6 +17,7 @@ public class PostRepo {
     private PostDao mPostDao;
     private PostFirebaseModel fireBaseModel;
     private List<Post> mAllPosts;
+    private List<Post> mAllBoardPosts;
     private ConnectivityManager cm;
 
     public PostRepo(Application application) {
@@ -46,7 +47,10 @@ public class PostRepo {
         mAllPosts = fireBaseModel.getAllPosts();
         return mAllPosts;
     }
-
+    public List<Post> getAllPostsBoard(String board) {
+        mAllBoardPosts = fireBaseModel.getAllPostsBoard(board);
+        return mAllBoardPosts;
+    }
 
     public void sendAdapter(PostAdapter adapter, ProgressBar progressBarSubs) {
         fireBaseModel.adapter = adapter;

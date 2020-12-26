@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
+import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,10 +23,12 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.SubViewHolder> {
     private final LayoutInflater mInflater;
     public List<Board> mBoards; // Cached copy of boards
     private Context context;
+    private SubAdapter.OnItemClickListener listener;
 
-    public SubAdapter(Context context) {
+    public SubAdapter(Context context, OnItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.listener=listener;
     }
 
     @NonNull
@@ -48,6 +51,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.SubViewHolder> {
 
             if(!current.getIcon_img().isEmpty())
                 imageLoader.displayImage(current.getIcon_img(), holder.subreddit_img, options);
+            holder.bind(current,listener);
 
         } else {
             holder.subreddit_name.setText("Loading...");
@@ -76,7 +80,19 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.SubViewHolder> {
             subreddit_img = itemView.findViewById(R.id.boardIcon);
             subreddit_name = itemView.findViewById(R.id.boardTitle);
         }
+        public void bind(Board current, SubAdapter.OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(current);
+                }
+            });
+        }
 
     }
+    public interface OnItemClickListener{
+        void onItemClick(Board board);
+    }
+
 }
 
