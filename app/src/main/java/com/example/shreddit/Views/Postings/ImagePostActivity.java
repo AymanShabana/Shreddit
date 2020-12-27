@@ -80,7 +80,7 @@ public class ImagePostActivity extends AppCompatActivity {
                     imageUrl = downloadUri.toString();
                     String board = binding.subName.getText().toString();
                     String title = binding.titleTxt.getText().toString();
-                    Post post = new Post("",title,board,"https://",imageUrl,"",0,0,new Date().getTime()/1000,imageUrl,"","image");
+                    Post post = new Post("",title,title.toUpperCase(),board,"https://",imageUrl,"",0,0,new Date().getTime()/1000,imageUrl,"","image");
                     postingViewModel.insert(post,new MyCallbackInterface(){
                         @Override
                         public void onAuthFinished(String result) {

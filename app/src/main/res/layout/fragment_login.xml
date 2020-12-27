@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.Initial.LoginFragment">
+    tools:context=".Views.Initial.LoginFragment"
+    android:background="@color/black">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,7 +29,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                app:srcCompat="@drawable/logo_light" />
+                app:srcCompat="@drawable/logo_dark" />
 
             <EditText
                 android:id="@+id/emailTxtLogin"
@@ -38,7 +39,10 @@
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_900"
+                android:textColorHint="@color/white"/>
 
             <EditText
                 android:id="@+id/passwordTxtLogin"
@@ -48,7 +52,10 @@
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/grey_900"
+                android:textColorHint="@color/white"/>
 
             <Button
                 android:id="@+id/loginButton"
@@ -64,7 +71,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/new_to_shreddit_text" />
+                android:text="@string/new_to_shreddit_text"
+                android:textColor="@color/white"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

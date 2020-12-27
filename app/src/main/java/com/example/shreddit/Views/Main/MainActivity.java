@@ -7,18 +7,27 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import com.example.shreddit.R;
 import com.example.shreddit.ViewModels.InitialViewModel;
+import com.example.shreddit.ViewModels.SearchViewModel;
+import com.example.shreddit.ViewModels.UserViewModel;
 import com.example.shreddit.Views.Initial.InitialActivity;
 import com.example.shreddit.Views.Postings.ImagePostActivity;
 import com.example.shreddit.Views.Postings.LinkPostActivity;
 import com.example.shreddit.Views.Postings.TextPostActivity;
 import com.example.shreddit.Views.Postings.VideoPostActivity;
+import com.example.shreddit.Views.SearchActivity;
 import com.example.shreddit.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -26,11 +35,15 @@ public class MainActivity extends AppCompatActivity {
     private Fragment homeFragment;
     BottomSheetBehavior sheetBehavior;
     private Fragment subsFragment;
+    UserViewModel userViewModel;
+    final int VOICE_RECOGNITION = 2;
+    Intent intentVR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -118,6 +131,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        binding.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("search",s);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        intentVR = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intentVR.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intentVR.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak!");
+        intentVR.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        intentVR.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+
+        binding.mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(intentVR, VOICE_RECOGNITION);
+            }
+        });
+        userViewModel.sendBinding(binding);
     }
     public void openLinkPost(View view){
         view.setOnClickListener(new View.OnClickListener() {
@@ -167,4 +208,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == VOICE_RECOGNITION) {
+            if (resultCode == RESULT_OK) {
+
+                List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                float[] confidence = data.getFloatArrayExtra(RecognizerIntent.EXTRA_CONFIDENCE_SCORES);
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("search",results.get(0));
+                startActivity(intent);
+
+            }
+        }
+    }
+
 }

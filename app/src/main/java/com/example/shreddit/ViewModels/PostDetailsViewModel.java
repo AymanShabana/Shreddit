@@ -14,6 +14,7 @@ import com.example.shreddit.Models.Comment;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.PostDetailsRepo;
 import com.example.shreddit.Models.PostingModel;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.Views.Adapters.CommentAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +31,7 @@ public class PostDetailsViewModel extends AndroidViewModel {
     }
     public List<Comment> getAllComments() { return postDetailsRepo.getAllComments(); }
     public void insert(Comment comment, MyCallbackInterface success) {
-        comment.setAuthor(auth.getCurrentUser().getUid());
+        comment.setAuthor(UserFirebaseModel.mUser.getUsername());
         new PostDetailsViewModel.insertAsyncTask(postDetailsRepo,success).execute(comment);
     }
 

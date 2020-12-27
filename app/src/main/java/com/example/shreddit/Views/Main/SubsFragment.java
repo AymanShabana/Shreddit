@@ -106,7 +106,7 @@ public class SubsFragment extends Fragment {
                 Keyboard.dismissKeyboard(getActivity());
                 binding.progressBar.setVisibility(View.VISIBLE);
                 String name = binding.subname.getText().toString();
-                Board board = new Board("",name, "", "", "", "", 0, "", new Date().getTime()/1000);
+                Board board = new Board("",name,name.toUpperCase(), "", "", "", "", 0, "", new Date().getTime()/1000);
                 mSubViewModel.insert(board,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {

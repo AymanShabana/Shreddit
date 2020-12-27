@@ -5,6 +5,7 @@ import com.google.firebase.firestore.Exclude;
 public class User {
     private String email;
     private String username;
+    private String username_c;
     private String bio;
     private String imageUrl;
     private String id;
@@ -12,12 +13,21 @@ public class User {
     public User() {
     }
 
-    public User(String email, String username, String bio, String imageUrl, String id) {
+    public User(String email, String username, String username_c, String bio, String imageUrl, String id) {
         this.email = email;
         this.username = username;
+        this.username_c = username_c;
         this.bio = bio;
         this.imageUrl = imageUrl;
         this.id = id;
+    }
+
+    public String getUsername_c() {
+        return username_c;
+    }
+
+    public void setUsername_c(String username_c) {
+        this.username_c = username_c;
     }
 
     public String getEmail() {

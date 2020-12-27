@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.PostingModel;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,7 +21,7 @@ public class PostingViewModel extends AndroidViewModel {
         auth = FirebaseAuth.getInstance();
     }
     public void insert(Post post, MyCallbackInterface success) {
-        post.setAuthor(auth.getCurrentUser().getUid());
+        post.setAuthor(UserFirebaseModel.mUser.getUsername());
         new PostingViewModel.insertAsyncTask(postingModel,success).execute(post);
     }
 

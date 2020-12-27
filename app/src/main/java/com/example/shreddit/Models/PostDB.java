@@ -79,7 +79,7 @@ public abstract class PostDB extends RoomDatabase {
             mDao.deleteAll();
 
             for (int i = 0; i <= ids.length - 1; i++) {
-                Post post = new Post(ids[i],titles[i],boards[i],boardIcons[i],postImgs[i],selfTexts[i],upvotes[i],
+                Post post = new Post(ids[i],titles[i],"",boards[i],boardIcons[i],postImgs[i],selfTexts[i],upvotes[i],
                         comments[i],created[i],links[i],authors[i],types[i]);
                 mDao.insert(post);
             }

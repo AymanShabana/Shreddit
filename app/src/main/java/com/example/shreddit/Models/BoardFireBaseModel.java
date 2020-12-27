@@ -25,7 +25,6 @@ import java.util.List;
 public class BoardFireBaseModel {
     public ProgressBar progressBar;
     private DatabaseReference mRootRef;
-    //FirebaseFirestore db;
     private static BoardFireBaseModel INSTANCE;
     private static Context mContext;
     private List<Board> mBoardList;
@@ -47,7 +46,7 @@ public class BoardFireBaseModel {
         this.mRootRef = database.getReference();
         //this.db = FirebaseFirestore.getInstance();
         this.mBoardList = new ArrayList<Board>();
-        mRootRef.child("Boards").addValueEventListener(new ValueEventListener() {
+        mRootRef.child("Boards").limitToFirst(50).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mBoardList.clear();
@@ -85,6 +84,7 @@ public class BoardFireBaseModel {
     public void insert(Board board, MyCallbackInterface cb) {
         HashMap<String,Object> map = new HashMap<String, Object>();
         map.put("name",board.getName());
+        map.put("name_c",board.getName_c());
         map.put("title",board.getTitle());
         map.put("header_img",board.getHeader_img());
         map.put("icon_img",board.getIcon_img());
@@ -92,7 +92,7 @@ public class BoardFireBaseModel {
         map.put("subscribers",board.getSubscribers());
         map.put("description",board.getDescription());
         map.put("created",board.getCreated());
-        mRootRef.child("Boards").orderByChild("name").equalTo(board.getName())
+        mRootRef.child("Boards").orderByChild("name_c").equalTo(board.getName_c())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

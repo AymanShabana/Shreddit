@@ -15,13 +15,17 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shreddit">
-        <activity android:name=".Views.BoardActivity"></activity>
+        <activity android:name=".Views.SearchActivity">
+        </activity>
+        <activity android:name=".Views.BoardActivity" />
         <activity android:name=".Views.PostDetailsActivity" />
         <activity android:name=".Views.Postings.TextPostActivity" />
         <activity android:name=".Views.Postings.VideoPostActivity" />
         <activity android:name=".Views.Postings.ImagePostActivity" />
         <activity android:name=".Views.Postings.LinkPostActivity" />
-        <activity android:name=".Views.Main.MainActivity" />
+        <activity android:name=".Views.Main.MainActivity" >
+
+        </activity>
         <activity android:name=".Views.Initial.InitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

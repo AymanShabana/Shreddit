@@ -45,7 +45,7 @@ public class TextPostActivity extends AppCompatActivity {
                     return;
                 }
                 binding.progressBar.setVisibility(View.VISIBLE);
-                Post post = new Post("",title,board,"https://","https://",text,0,0,new Date().getTime()/1000,"","","text");
+                Post post = new Post("",title,title.toUpperCase(),board,"https://","https://",text,0,0,new Date().getTime()/1000,"","","text");
                 postingViewModel.insert(post,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {

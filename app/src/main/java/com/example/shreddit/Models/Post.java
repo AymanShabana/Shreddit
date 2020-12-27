@@ -17,6 +17,9 @@ public class Post implements Serializable {
     @NonNull
     @ColumnInfo(name = "title")
     private String title;
+    @NonNull
+    @ColumnInfo(name = "title_c")
+    private String title_c;
 
     @NonNull
     @ColumnInfo(name = "board")
@@ -55,9 +58,10 @@ public class Post implements Serializable {
     @ColumnInfo(name = "type")
     private String type;
 
-    public Post(String id, @NonNull String title, @NonNull String board, String boardIcon, String postImg,String selfText, int upvotes, int comments, long created, String link, String author, String type) {
+    public Post(@NonNull String id, @NonNull String title, @NonNull String title_c, @NonNull String board, String boardIcon, String postImg, String selfText, int upvotes, int comments, long created, @NonNull String link, @NonNull String author, @NonNull String type) {
         this.id = id;
         this.title = title;
+        this.title_c = title_c;
         this.board = board;
         this.boardIcon = boardIcon;
         this.postImg = postImg;
@@ -69,7 +73,17 @@ public class Post implements Serializable {
         this.author = author;
         this.type = type;
     }
+
     public Post(){}
+
+    @NonNull
+    public String getTitle_c() {
+        return title_c;
+    }
+
+    public void setTitle_c(@NonNull String title_c) {
+        this.title_c = title_c;
+    }
 
     public void setId(@NonNull String id) {
         this.id = id;

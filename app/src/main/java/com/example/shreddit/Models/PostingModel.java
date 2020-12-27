@@ -41,6 +41,7 @@ public class PostingModel {
     public void insertPost(Post post, MyCallbackInterface cb){
         HashMap<String,Object> map = new HashMap<String, Object>();
         map.put("title",post.getTitle());
+        map.put("title_c",post.getTitle_c());
         map.put("board",post.getBoard());
         map.put("boardIcon",post.getBoardIcon());
         map.put("postImg",post.getPostImg());

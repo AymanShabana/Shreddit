@@ -17,6 +17,11 @@ public class Board implements Serializable {
     @ColumnInfo(name = "name")
     private String name;
 
+
+    @NonNull
+    @ColumnInfo(name = "name_c")
+    private String name_c;
+
     @ColumnInfo(name = "title")
     private String title;
 
@@ -38,9 +43,10 @@ public class Board implements Serializable {
     @ColumnInfo(name = "created")
     private long created;
 
-    public Board(@NonNull String id, @NonNull String name, String title, String header_img, String icon_img, String color, int subscribers, String description, long created) {
+    public Board(@NonNull String id, @NonNull String name, @NonNull String name_c, String title, String header_img, String icon_img, String color, int subscribers, String description, long created) {
         this.id = id;
         this.name = name;
+        this.name_c = name_c;
         this.title = title;
         this.header_img = header_img;
         this.icon_img = icon_img;
@@ -49,6 +55,7 @@ public class Board implements Serializable {
         this.description = description;
         this.created = created;
     }
+
     public Board(){}
 
     @NonNull
@@ -59,6 +66,15 @@ public class Board implements Serializable {
     @NonNull
     public String getName() {
         return name;
+    }
+
+    @NonNull
+    public String getName_c() {
+        return name_c;
+    }
+
+    public void setName_c(@NonNull String name_c) {
+        this.name_c = name_c;
     }
 
     public String getTitle() {

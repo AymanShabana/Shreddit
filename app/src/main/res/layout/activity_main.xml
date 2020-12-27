@@ -32,22 +32,32 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
-                android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_gravity="center"
                 android:src="@drawable/icon"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:layout_width="0dp" />
 
             <SearchView
-                android:layout_width="358dp"
-                android:layout_height="match_parent" />
-
+                android:layout_height="match_parent"
+                android:id="@+id/search_bar"
+                android:layout_weight="10"
+                android:layout_width="0dp"
+                android:theme="@style/AppSearchView"/>
+            <ImageView
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_keyboard_voice_24"
+                android:id="@+id/mic"
+                android:layout_weight="1"
+                android:layout_width="0dp"/>
         </LinearLayout>
 
         <FrameLayout
@@ -65,13 +75,14 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            >
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
+                android:background="@color/grey_900"
                 app:itemIconTint="@color/white"
                 app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/my_navigation_items" />
@@ -89,20 +100,46 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true" >
 
-        <TextView
-            android:id="@+id/username"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="20dp"
+                android:id="@+id/user_picture"
+                android:src="@drawable/icon"/>
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white">
 
-        </TextView>
-        <Button
-            android:id="@+id/loginBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp">Login</Button>
+            </TextView>
+            <TextView
+                android:id="@+id/email_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white">
+
+            </TextView>
+            <Button
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="Logout"
+                android:textColor="@color/white"></Button>
+
+        </LinearLayout>
 
     </com.google.android.material.navigation.NavigationView>
 

@@ -129,7 +129,7 @@ public class VideoPostActivity extends AppCompatActivity {
                     videoUrl = downloadUri.toString();
                     String board = binding.subName.getText().toString();
                     String title = binding.titleTxt.getText().toString();
-                    Post post = new Post("",title,board,"https://",videoUrl,"",0,0,new Date().getTime()/1000,videoUrl,"","video");
+                    Post post = new Post("",title,title.toUpperCase(),board,"https://",videoUrl,"",0,0,new Date().getTime()/1000,videoUrl,"","video");
                     postingViewModel.insert(post,new MyCallbackInterface(){
                         @Override
                         public void onAuthFinished(String result) {

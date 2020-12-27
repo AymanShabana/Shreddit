@@ -51,7 +51,7 @@ public class PostFirebaseModel {
         //this.db = FirebaseFirestore.getInstance();
         this.mPostList = new ArrayList<Post>();
         this.mBoardPostList = new ArrayList<Post>();
-        mRootRef.child("Posts").addValueEventListener(new ValueEventListener() {
+        mRootRef.child("Posts").limitToFirst(20).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mPostList.clear();
