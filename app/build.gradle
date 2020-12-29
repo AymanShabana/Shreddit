@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.shreddit"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -64,6 +64,9 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.github.AbedElazizShe:LightCompressor:0.7.7'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
     implementation 'com.google.firebase:firebase-analytics'

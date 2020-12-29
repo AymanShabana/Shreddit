@@ -49,17 +49,20 @@ public class LinkPostActivity extends AppCompatActivity {
                     return;
                 }
                 binding.progressBar.setVisibility(View.VISIBLE);
+                binding.postBtn.setVisibility(View.GONE);
                 Post post = new Post("",title,title.toUpperCase(),board,"https://","https://","",0,0,new Date().getTime()/1000,link,"","link");
                 postingViewModel.insert(post,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {
                         binding.progressBar.setVisibility(View.GONE);
+                        binding.postBtn.setVisibility(View.VISIBLE);
                         if(result.equals("success")){
                             //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
                             finish();
                         }
                         else{
                             binding.progressBar.setVisibility(View.GONE);
+                            binding.postBtn.setVisibility(View.VISIBLE);
                             //Snackbar.make(binding.parentLayout, "Error: "+result, Snackbar.LENGTH_LONG).show();
                         }
                     }

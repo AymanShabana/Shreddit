@@ -109,6 +109,7 @@ public class VideoPostActivity extends AppCompatActivity {
     private void upload() {
         if(videoUri != null && !binding.subName.getText().toString().isEmpty() && !binding.titleTxt.getText().toString().isEmpty()){
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.postBtn.setVisibility(View.GONE);
             final StorageReference filePath = FirebaseStorage.getInstance().getReference("Videos").child(System.currentTimeMillis()+".mp4");
             StorageTask uploadTask = filePath.putFile(videoUri);
             uploadTask.continueWithTask(new Continuation() {
@@ -134,12 +135,14 @@ public class VideoPostActivity extends AppCompatActivity {
                         @Override
                         public void onAuthFinished(String result) {
                             binding.progressBar.setVisibility(View.GONE);
+                            binding.postBtn.setVisibility(View.VISIBLE);
                             if(result.equals("success")){
                                 //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
                                 finish();
                             }
                             else{
                                 binding.progressBar.setVisibility(View.GONE);
+                                binding.postBtn.setVisibility(View.VISIBLE);
                                 //Snackbar.make(binding.parentLayout, "Error: "+result, Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -160,19 +163,6 @@ public class VideoPostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-//            List<String> mPaths = data.getStringArrayListExtra(VideoPicker.EXTRA_VIDEO_PATH);
-//            videoUri=Uri.parse(mPaths.get(0));
-//            binding.videoPlayer.setVideoPath(mPaths.get(0));
-//            MediaController mediaController = new MediaController(this);
-//            mediaController.setAnchorView(binding.videoPlayer);
-//            binding.videoPlayer.setMediaController(mediaController);
-//
-//        }
-//        else
-//        {
-//            Toast.makeText(this, resultCode+"", Toast.LENGTH_SHORT).show();
-//        }
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
                 File f = new File(Environment.getExternalStorageDirectory()
@@ -186,7 +176,9 @@ public class VideoPostActivity extends AppCompatActivity {
                 videoUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.shreddit", f);
                 Log.d("SelectedVideo", videoUri.toString());
             } else if (requestCode == 2) {
+
                 Uri selectedImage = data.getData();
+
                 videoUri = selectedImage;
                 binding.videoPlayer.setVideoPath(videoUri.toString());
                 MediaController mediaController = new MediaController(this);
@@ -195,6 +187,10 @@ public class VideoPostActivity extends AppCompatActivity {
                 Log.d("SelectedVideo", videoUri.toString());
             }
 
+        }
+        else{
+            Toast.makeText(this, "Try again.", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 }

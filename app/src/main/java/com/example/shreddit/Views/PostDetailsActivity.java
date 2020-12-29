@@ -46,6 +46,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         binding.boardName.setText(post.getBoard());
+        binding.authorName.setText("Posted by "+post.getAuthor());
         binding.commentsLbl.setText(post.getComments()+"");
         binding.title.setText(post.getTitle());
         binding.upvotesLbl.setText(post.getUpvotes()+"");

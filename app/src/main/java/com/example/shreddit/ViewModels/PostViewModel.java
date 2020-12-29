@@ -22,7 +22,10 @@ public class PostViewModel extends AndroidViewModel {
         mRepository = new PostRepo(application);
         mAllPosts = mRepository.getAllPosts();
     }
-    public List<Post> getAllPosts() { return mAllPosts; }
+    public List<Post> getAllPosts() {
+        mAllPosts = mRepository.getAllPosts();
+        return mAllPosts;
+    }
     //public void insert(Post post) { mRepository.insert(post); }
     public void updatePost(Post post){ mRepository.updatePost(post);}
     public void deletePosts(Post... posts){ mRepository.deletePosts(posts);}

@@ -8,8 +8,12 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.Views.Adapters.BoardAdapter;
 import com.example.shreddit.Views.Adapters.PostAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class PostFirebaseModel {
     public ProgressBar progressBar;
@@ -126,5 +131,210 @@ public class PostFirebaseModel {
         return mBoardPostList;
     }
 
+    public void upvotePost(String postId, MyCallbackInterface cb){
+        mRootRef.child("Posts").child(postId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getValue() != null) {
+                            mRootRef.child("Votes").child(postId)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.child(FirebaseAuth.getInstance().getUid()).exists()){
+                                                Map<String, Object> map  = (Map) snapshot.getValue();
+                                                switch ((int)map.get(FirebaseAuth.getInstance().getUid())){
+                                                    case 0:
+                                                        mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(1);
+                                                        mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                Post post = snapshot.getValue(Post.class);
+                                                                post.setUpvotes(post.getUpvotes()+1);
+                                                                mRootRef.child("Posts").child(postId).setValue(post);
+                                                                cb.onAuthFinished("success");
+                                                            }
 
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+                                                        break;
+                                                    case 1:
+                                                        mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(0);
+                                                        mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                Post post = snapshot.getValue(Post.class);
+                                                                post.setUpvotes(post.getUpvotes()-1);
+                                                                mRootRef.child("Posts").child(postId).setValue(post);
+                                                                cb.onAuthFinished("success");
+
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+
+                                                        break;
+                                                    case 2:
+                                                        mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(1);
+                                                        mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                Post post = snapshot.getValue(Post.class);
+                                                                post.setUpvotes(post.getUpvotes()+2);
+                                                                mRootRef.child("Posts").child(postId).setValue(post);
+                                                                cb.onAuthFinished("success");
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+                                                        break;
+                                                }
+                                            }
+                                            else {
+                                                mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(1);
+                                                mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        Post post = snapshot.getValue(Post.class);
+                                                        post.setUpvotes(post.getUpvotes()+1);
+                                                        mRootRef.child("Posts").child(postId).setValue(post);
+                                                        cb.onAuthFinished("success");
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
+    public void downvotePost(String postId, MyCallbackInterface cb){
+        mRootRef.child("Posts").child(postId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getValue() != null) {
+                            mRootRef.child("Votes").child(postId)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.child(FirebaseAuth.getInstance().getUid()).exists()){
+                                                Map<String, Object> map  = (Map) snapshot.getValue();
+                                                switch ((int)map.get(FirebaseAuth.getInstance().getUid())){
+                                                    case 0:
+                                                        mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(2);
+                                                        mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                Post post = snapshot.getValue(Post.class);
+                                                                post.setUpvotes(post.getUpvotes()-1);
+                                                                mRootRef.child("Posts").child(postId).setValue(post);
+                                                                cb.onAuthFinished("success");
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+                                                        break;
+                                                    case 1:
+                                                        mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(2);
+                                                        mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                Post post = snapshot.getValue(Post.class);
+                                                                post.setUpvotes(post.getUpvotes()-2);
+                                                                mRootRef.child("Posts").child(postId).setValue(post);
+                                                                cb.onAuthFinished("success");
+
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+
+                                                        break;
+                                                    case 2:
+                                                        mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(0);
+                                                        mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                Post post = snapshot.getValue(Post.class);
+                                                                post.setUpvotes(post.getUpvotes()+1);
+                                                                mRootRef.child("Posts").child(postId).setValue(post);
+                                                                cb.onAuthFinished("success");
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+                                                        break;
+                                                }
+                                            }
+                                            else {
+                                                mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(2);
+                                                mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        Post post = snapshot.getValue(Post.class);
+                                                        post.setUpvotes(post.getUpvotes()-1);
+                                                        mRootRef.child("Posts").child(postId).setValue(post);
+                                                        cb.onAuthFinished("success");
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
 }

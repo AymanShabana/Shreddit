@@ -36,6 +36,17 @@
             android:layout_weight="1"
             android:id="@+id/post_btn"
             android:textColor="@color/white"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:indeterminateTint="@color/orange_700"
+            android:indeterminateTintMode="src_in"
+            android:visibility="gone"
+            />
+
     </LinearLayout>
     <EditText
         android:layout_width="match_parent"
@@ -62,14 +73,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/post_image"/>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/orange_700"
-        android:indeterminateTintMode="src_in"
-        android:visibility="gone"
-        />
 
 </LinearLayout>

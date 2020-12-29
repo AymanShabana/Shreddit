@@ -60,6 +60,7 @@ public class ImagePostActivity extends AppCompatActivity {
     private void upload() {
         if(imageUri != null && !binding.subName.getText().toString().isEmpty() && !binding.titleTxt.getText().toString().isEmpty()){
             binding.progressBar.setVisibility(View.VISIBLE);
+            binding.postBtn.setVisibility(View.GONE);
             final StorageReference filePath = FirebaseStorage.getInstance().getReference("PostImages").child(System.currentTimeMillis()+"."+getFileExtension(imageUri));
             StorageTask uploadTask = filePath.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation() {
@@ -85,12 +86,14 @@ public class ImagePostActivity extends AppCompatActivity {
                         @Override
                         public void onAuthFinished(String result) {
                             binding.progressBar.setVisibility(View.GONE);
+                            binding.postBtn.setVisibility(View.VISIBLE);
                             if(result.equals("success")){
                                 //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
                                 finish();
                             }
                             else{
                                 binding.progressBar.setVisibility(View.GONE);
+                                binding.postBtn.setVisibility(View.VISIBLE);
                                 //Snackbar.make(binding.parentLayout, "Error: "+result, Snackbar.LENGTH_LONG).show();
                             }
                         }
@@ -122,6 +125,7 @@ public class ImagePostActivity extends AppCompatActivity {
         else
         {
             Toast.makeText(this, "Try again.", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 

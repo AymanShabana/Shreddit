@@ -44,7 +44,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
     public void onBindViewHolder(@NonNull BoardAdapter.BoardViewHolder holder, int position) {
         if (mPosts != null) {
             Post current = mPosts.get(position);
-            holder.user_name.setText(current.getAuthor());
+            holder.user_name.setText("Posted by "+current.getAuthor());
             holder.post_time.setText(current.getTimeSinceCreation());
             holder.post_title.setText(current.getTitle());
             holder.upvotes_lbl.setText(current.getUpvotes()+"");
