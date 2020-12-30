@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.PostFirebaseModel;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -77,6 +79,55 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                     break;
             }
             holder.bind(current,listener);
+            holder.upvote_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PostFirebaseModel.upvotePost(current.getId(),new MyCallbackInterface() {
+                        @Override
+                        public void onAuthFinished(String result) {
+                            if(result.startsWith("Failure: ")){
+                            }
+                            else{
+                                holder.upvotes_lbl.setText(result);
+                            }
+                        }
+                    });
+                }
+            });
+            holder.downvote_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PostFirebaseModel.downvotePost(current.getId(),new MyCallbackInterface() {
+                        @Override
+                        public void onAuthFinished(String result) {
+                            if(result.startsWith("Failure: ")){
+                            }
+                            else{
+                                holder.upvotes_lbl.setText(result);
+                            }
+                        }
+                    });
+                }
+            });
+            PostFirebaseModel.voteExists(current.getId(), new MyCallbackInterface() {
+                @Override
+                public void onAuthFinished(String result) {
+                    switch (result){
+                        case "1":
+                            holder.upvote_btn.setImageResource(R.drawable.up_pressed);
+                            holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                            break;
+                        case "2":
+                            holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                            holder.downvote_btn.setImageResource(R.drawable.down_pressed);
+                            break;
+                        default:
+                            holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                            holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    }
+                }
+            });
+
         } else {
             holder.user_name.setText("Loading...");
         }

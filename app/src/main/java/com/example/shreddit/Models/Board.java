@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity(tableName = "board_table")
-public class Board implements Serializable {
+public class Board implements Serializable, Comparable<Board> {
     @PrimaryKey
     @NonNull
     public String id;
@@ -154,5 +154,10 @@ public class Board implements Serializable {
 
     public void setCreated(long created) {
         this.created = created;
+    }
+
+    @Override
+    public int compareTo(Board board) {
+        return this.getName_c().compareTo(board.getName_c());
     }
 }

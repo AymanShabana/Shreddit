@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class SearchFirebaseModel {
                     Log.i("Boards",board.toString());
                     mBoardList.add(board);
                 }
+                Collections.sort(mBoardList);
                 if(progressBar!=null)
                     progressBar.setVisibility(View.GONE);
                 if(subAdapter!=null){
@@ -96,6 +98,7 @@ public class SearchFirebaseModel {
                     Post post = dataSnapshot.getValue(Post.class);
                     mPostList.add(post);
                 }
+                Collections.sort(mPostList);
                 if(progressBarPosts!=null)
                     progressBarPosts.setVisibility(View.GONE);
                 if(postAdapter!=null){

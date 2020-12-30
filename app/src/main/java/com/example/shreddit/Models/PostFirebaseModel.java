@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,7 @@ public class PostFirebaseModel {
                     Log.i("Posts",post.toString());
                     mPostList.add(post);
                 }
+                Collections.sort(mPostList);
                 if(progressBar!=null)
                     progressBar.setVisibility(View.GONE);
                 if(adapter!=null){
@@ -87,6 +90,7 @@ public class PostFirebaseModel {
                     Post post = dataSnapshot.getValue(Post.class);
                     mBoardPostList.add(post);
                 }
+                Collections.sort(mBoardPostList);
                 if(progressBarBoard!=null)
                     progressBarBoard.setVisibility(View.GONE);
                 if(adapterBoard!=null){
@@ -131,7 +135,8 @@ public class PostFirebaseModel {
         return mBoardPostList;
     }
 
-    public void upvotePost(String postId, MyCallbackInterface cb){
+    public static void upvotePost(String postId, MyCallbackInterface cb){
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
         mRootRef.child("Posts").child(postId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -143,7 +148,8 @@ public class PostFirebaseModel {
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             if(snapshot.child(FirebaseAuth.getInstance().getUid()).exists()){
                                                 Map<String, Object> map  = (Map) snapshot.getValue();
-                                                switch ((int)map.get(FirebaseAuth.getInstance().getUid())){
+                                                //Log.i("SelectedVideo",map.get(FirebaseAuth.getInstance().getUid())+"");
+                                                switch (Integer.parseInt(map.get(FirebaseAuth.getInstance().getUid())+"")){
                                                     case 0:
                                                         mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(1);
                                                         mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -152,7 +158,7 @@ public class PostFirebaseModel {
                                                                 Post post = snapshot.getValue(Post.class);
                                                                 post.setUpvotes(post.getUpvotes()+1);
                                                                 mRootRef.child("Posts").child(postId).setValue(post);
-                                                                cb.onAuthFinished("success");
+                                                                cb.onAuthFinished(""+post.getUpvotes());
                                                             }
 
                                                             @Override
@@ -169,7 +175,7 @@ public class PostFirebaseModel {
                                                                 Post post = snapshot.getValue(Post.class);
                                                                 post.setUpvotes(post.getUpvotes()-1);
                                                                 mRootRef.child("Posts").child(postId).setValue(post);
-                                                                cb.onAuthFinished("success");
+                                                                cb.onAuthFinished(""+post.getUpvotes());
 
                                                             }
 
@@ -188,7 +194,7 @@ public class PostFirebaseModel {
                                                                 Post post = snapshot.getValue(Post.class);
                                                                 post.setUpvotes(post.getUpvotes()+2);
                                                                 mRootRef.child("Posts").child(postId).setValue(post);
-                                                                cb.onAuthFinished("success");
+                                                                cb.onAuthFinished(""+post.getUpvotes());
                                                             }
 
                                                             @Override
@@ -207,7 +213,7 @@ public class PostFirebaseModel {
                                                         Post post = snapshot.getValue(Post.class);
                                                         post.setUpvotes(post.getUpvotes()+1);
                                                         mRootRef.child("Posts").child(postId).setValue(post);
-                                                        cb.onAuthFinished("success");
+                                                        cb.onAuthFinished(""+post.getUpvotes());
                                                     }
 
                                                     @Override
@@ -234,7 +240,8 @@ public class PostFirebaseModel {
                 });
 
     }
-    public void downvotePost(String postId, MyCallbackInterface cb){
+    public static void downvotePost(String postId, MyCallbackInterface cb){
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
         mRootRef.child("Posts").child(postId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -246,7 +253,7 @@ public class PostFirebaseModel {
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             if(snapshot.child(FirebaseAuth.getInstance().getUid()).exists()){
                                                 Map<String, Object> map  = (Map) snapshot.getValue();
-                                                switch ((int)map.get(FirebaseAuth.getInstance().getUid())){
+                                                switch (Integer.parseInt(map.get(FirebaseAuth.getInstance().getUid())+"")){
                                                     case 0:
                                                         mRootRef.child("Votes").child(postId).child(FirebaseAuth.getInstance().getUid()).setValue(2);
                                                         mRootRef.child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -255,7 +262,7 @@ public class PostFirebaseModel {
                                                                 Post post = snapshot.getValue(Post.class);
                                                                 post.setUpvotes(post.getUpvotes()-1);
                                                                 mRootRef.child("Posts").child(postId).setValue(post);
-                                                                cb.onAuthFinished("success");
+                                                                cb.onAuthFinished(""+post.getUpvotes());
                                                             }
 
                                                             @Override
@@ -272,7 +279,7 @@ public class PostFirebaseModel {
                                                                 Post post = snapshot.getValue(Post.class);
                                                                 post.setUpvotes(post.getUpvotes()-2);
                                                                 mRootRef.child("Posts").child(postId).setValue(post);
-                                                                cb.onAuthFinished("success");
+                                                                cb.onAuthFinished(""+post.getUpvotes());
 
                                                             }
 
@@ -291,7 +298,7 @@ public class PostFirebaseModel {
                                                                 Post post = snapshot.getValue(Post.class);
                                                                 post.setUpvotes(post.getUpvotes()+1);
                                                                 mRootRef.child("Posts").child(postId).setValue(post);
-                                                                cb.onAuthFinished("success");
+                                                                cb.onAuthFinished(""+post.getUpvotes());
                                                             }
 
                                                             @Override
@@ -310,7 +317,7 @@ public class PostFirebaseModel {
                                                         Post post = snapshot.getValue(Post.class);
                                                         post.setUpvotes(post.getUpvotes()-1);
                                                         mRootRef.child("Posts").child(postId).setValue(post);
-                                                        cb.onAuthFinished("success");
+                                                        cb.onAuthFinished(""+post.getUpvotes());
                                                     }
 
                                                     @Override
@@ -336,5 +343,26 @@ public class PostFirebaseModel {
                     }
                 });
 
+    }
+    public static void voteExists(String postId, MyCallbackInterface cb){
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef.child("Votes").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(FirebaseAuth.getInstance().getUid()).exists()) {
+                    Map<String, Object> map  = (Map) snapshot.getValue();
+                    cb.onAuthFinished(map.get(FirebaseAuth.getInstance().getUid())+"");
+
+                }
+                else{
+                    cb.onAuthFinished("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -13,6 +13,7 @@ import com.example.shreddit.Models.Board;
 import com.example.shreddit.Models.Comment;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.PostDetailsRepo;
+import com.example.shreddit.Models.PostFirebaseModel;
 import com.example.shreddit.Models.PostingModel;
 import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.Utils.MyCallbackInterface;
@@ -24,9 +25,11 @@ import java.util.List;
 public class PostDetailsViewModel extends AndroidViewModel {
     private PostDetailsRepo postDetailsRepo;
     private FirebaseAuth auth;
+    private String postId;
     public PostDetailsViewModel(@NonNull Application application, String mPostId) {
         super(application);
         postDetailsRepo = new PostDetailsRepo(application,mPostId);
+        this.postId = mPostId;
         auth = FirebaseAuth.getInstance();
     }
     public List<Comment> getAllComments() { return postDetailsRepo.getAllComments(); }
@@ -35,6 +38,12 @@ public class PostDetailsViewModel extends AndroidViewModel {
         new PostDetailsViewModel.insertAsyncTask(postDetailsRepo,success).execute(comment);
     }
 
+    public void upvote(MyCallbackInterface cb){
+        PostFirebaseModel.upvotePost(this.postId,cb);
+    }
+    public void downvote(MyCallbackInterface cb){
+        PostFirebaseModel.downvotePost(this.postId,cb);
+    }
     public void sendAdapter(CommentAdapter adapter, ProgressBar progressBarSubs) {
         postDetailsRepo.sendAdapter(adapter,progressBarSubs);
     }

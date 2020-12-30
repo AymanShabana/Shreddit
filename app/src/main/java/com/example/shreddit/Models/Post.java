@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "post_table")
-public class Post implements Serializable {
+public class Post implements Serializable, Comparable<Post> {
     @PrimaryKey
     @NonNull
     public String id;
@@ -224,5 +224,11 @@ public class Post implements Serializable {
                 ", type='" + type + '\'' +
                 ", author='" + author + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Post post) {
+        int compareVotes = post.getUpvotes();
+        return compareVotes-this.getUpvotes();
     }
 }

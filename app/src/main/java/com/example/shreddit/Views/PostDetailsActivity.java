@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.shreddit.Models.Comment;
 import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.PostFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostDetailsViewModel;
@@ -133,6 +134,93 @@ public class PostDetailsActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(PostDetailsActivity.this, "Please add a comment first.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.upvoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postDetailsViewModel.upvote(new MyCallbackInterface() {
+                    @Override
+                    public void onAuthFinished(String result) {
+                        if(result.startsWith("Failure: ")){
+                            Toast.makeText(PostDetailsActivity.this, result, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            binding.upvotesLbl.setText(result);
+                            PostFirebaseModel.voteExists(post.getId(), new MyCallbackInterface() {
+                                @Override
+                                public void onAuthFinished(String result) {
+                                    switch (result){
+                                        case "1":
+                                            binding.upvoteBtn.setImageResource(R.drawable.up_pressed);
+                                            binding.downvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                                            break;
+                                        case "2":
+                                            binding.upvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                                            binding.downvoteBtn.setImageResource(R.drawable.down_pressed);
+                                            break;
+                                        default:
+                                            binding.upvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                                            binding.downvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+        binding.downvoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postDetailsViewModel.downvote(new MyCallbackInterface() {
+                    @Override
+                    public void onAuthFinished(String result) {
+                        if(result.startsWith("Failure: ")){
+                            Toast.makeText(PostDetailsActivity.this, result, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            binding.upvotesLbl.setText(result);
+                            PostFirebaseModel.voteExists(post.getId(), new MyCallbackInterface() {
+                                @Override
+                                public void onAuthFinished(String result) {
+                                    switch (result){
+                                        case "1":
+                                            binding.upvoteBtn.setImageResource(R.drawable.up_pressed);
+                                            binding.downvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                                            break;
+                                        case "2":
+                                            binding.upvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                                            binding.downvoteBtn.setImageResource(R.drawable.down_pressed);
+                                            break;
+                                        default:
+                                            binding.upvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                                            binding.downvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                });
+            }
+        });
+        PostFirebaseModel.voteExists(post.getId(), new MyCallbackInterface() {
+            @Override
+            public void onAuthFinished(String result) {
+                switch (result){
+                    case "1":
+                        binding.upvoteBtn.setImageResource(R.drawable.up_pressed);
+                        binding.downvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                        break;
+                    case "2":
+                        binding.upvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                        binding.downvoteBtn.setImageResource(R.drawable.down_pressed);
+                        break;
+                    default:
+                        binding.upvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                        binding.downvoteBtn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }
             }
         });
