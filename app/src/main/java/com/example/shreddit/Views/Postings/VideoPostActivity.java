@@ -20,9 +20,11 @@ import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostingViewModel;
+import com.example.shreddit.Views.PostDetailsActivity;
 import com.example.shreddit.databinding.ActivityVideoPostBinding;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -130,7 +132,7 @@ public class VideoPostActivity extends AppCompatActivity {
                     videoUrl = downloadUri.toString();
                     String board = binding.subName.getText().toString();
                     String title = binding.titleTxt.getText().toString();
-                    Post post = new Post("",title,title.toUpperCase(),board,"https://",videoUrl,"",0,0,new Date().getTime()/1000,videoUrl,"","video");
+                    Post post = new Post("",title,title.toUpperCase(),board,"https://",videoUrl,"",0,0,new Date().getTime()/1000,videoUrl, UserFirebaseModel.mUser.getUsername(),"video");
                     postingViewModel.insert(post,new MyCallbackInterface(){
                         @Override
                         public void onAuthFinished(String result) {
@@ -138,6 +140,11 @@ public class VideoPostActivity extends AppCompatActivity {
                             binding.postBtn.setVisibility(View.VISIBLE);
                             if(result.equals("success")){
                                 //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                                String postId = result.split(":")[1];
+                                Intent intent = new Intent(getApplicationContext(), PostDetailsActivity.class);
+                                post.setId(postId);
+                                intent.putExtra("post", post);
+                                startActivity(intent);
                                 finish();
                             }
                             else{

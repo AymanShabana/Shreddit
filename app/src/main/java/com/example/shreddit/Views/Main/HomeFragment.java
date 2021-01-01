@@ -2,6 +2,7 @@ package com.example.shreddit.Views.Main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.R;
@@ -20,16 +22,13 @@ import com.example.shreddit.databinding.FragmentHomeBinding;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import net.alhazmy13.mediapicker.Video.VideoActivity;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +41,8 @@ public class HomeFragment extends Fragment {
     private PostViewModel mPostViewModel;
     private PostAdapter adapter;
     private FragmentHomeBinding binding;
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -100,25 +101,36 @@ public class HomeFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
         mPostViewModel = new ViewModelProvider(this).get(PostViewModel.class);
 //        Log.i("LOG_RESPONSE_HF",mPostViewModel.getAllPosts().get(0).toString());
         mPostViewModel.sendAdapter(adapter,binding.progressBarSubs);
         binding.progressBarSubs.setVisibility(View.VISIBLE);
         adapter.setPosts(mPostViewModel.getAllPosts());
-
-//        mPostViewModel.getAllPosts().observe(getActivity(), new Observer<List<Post>>() {
-//            @Override
-//            public void onChanged(@Nullable final List<Post> posts) {
-//                // Update the cached copy of the words in the adapter.
-//                adapter.setPosts(posts);
-//            }
-//        });
-
+        binding.swipeRefresh.setOnRefreshListener(this);
         return view;
     }
-    public interface VolleyCallback{
-        void onSuccess(List<Post> result);
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(adapter!=null && mPostViewModel!=null){
+            adapter.setPosts(mPostViewModel.getAllPosts());
+        }
     }
 
+    @Override
+    public void onRefresh() {
+        adapter.clear();
+        adapter.setPosts(mPostViewModel.getAllPosts());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binding.swipeRefresh.setRefreshing(false);
+            }
+        }, 350);
+    }
 }

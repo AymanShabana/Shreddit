@@ -58,7 +58,7 @@ public class PostFirebaseModel {
         //this.db = FirebaseFirestore.getInstance();
         this.mPostList = new ArrayList<Post>();
         this.mBoardPostList = new ArrayList<Post>();
-        mRootRef.child("Posts").limitToFirst(20).addValueEventListener(new ValueEventListener() {
+        mRootRef.child("Posts").limitToFirst(20).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mPostList.clear();
@@ -109,6 +109,31 @@ public class PostFirebaseModel {
 
 
     public List<Post> getAllPosts() {
+        mRootRef.child("Posts").limitToFirst(50).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mPostList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post post = dataSnapshot.getValue(Post.class);
+                    Log.i("Posts",post.toString());
+                    mPostList.add(post);
+                }
+                Collections.sort(mPostList);
+                if(progressBar!=null)
+                    progressBar.setVisibility(View.GONE);
+                if(adapter!=null){
+                    adapter.notifyDataSetChanged();
+                    adapter.setPosts(mPostList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+
         if(!mPostList.isEmpty() && progressBar!=null)
             progressBar.setVisibility(View.GONE);
         if(adapter!=null){
@@ -364,5 +389,34 @@ public class PostFirebaseModel {
 
             }
         });
+    }
+
+    public List<Post> getPagedPosts(int page) {
+        mRootRef.child("Posts").limitToFirst(10+page).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mPostList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post post = dataSnapshot.getValue(Post.class);
+                    Log.i("Posts",post.toString());
+                    mPostList.add(post);
+                }
+                Collections.sort(mPostList);
+                if(progressBar!=null)
+                    progressBar.setVisibility(View.GONE);
+                if(adapter!=null){
+                    adapter.notifyDataSetChanged();
+                    adapter.addPosts(mPostList.subList(page,mPostList.size()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+        return mPostList;
+
     }
 }

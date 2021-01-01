@@ -67,7 +67,8 @@
             app:layout_constraintBottom_toTopOf="@+id/bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/bottom"

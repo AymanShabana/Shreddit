@@ -14,9 +14,12 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostingViewModel;
+import com.example.shreddit.Views.Main.HomeFragment;
+import com.example.shreddit.Views.PostDetailsActivity;
 import com.example.shreddit.databinding.ActivityImagePostBinding;
 import com.example.shreddit.databinding.ActivityLinkPostBinding;
 import com.google.android.gms.tasks.Continuation;
@@ -81,15 +84,21 @@ public class ImagePostActivity extends AppCompatActivity {
                     imageUrl = downloadUri.toString();
                     String board = binding.subName.getText().toString();
                     String title = binding.titleTxt.getText().toString();
-                    Post post = new Post("",title,title.toUpperCase(),board,"https://",imageUrl,"",0,0,new Date().getTime()/1000,imageUrl,"","image");
+                    Post post = new Post("",title,title.toUpperCase(),board,"https://",imageUrl,"",0,0,new Date().getTime()/1000,imageUrl, UserFirebaseModel.mUser.getUsername(),"image");
                     postingViewModel.insert(post,new MyCallbackInterface(){
                         @Override
                         public void onAuthFinished(String result) {
                             binding.progressBar.setVisibility(View.GONE);
                             binding.postBtn.setVisibility(View.VISIBLE);
-                            if(result.equals("success")){
+                            if(result.startsWith("success")){
                                 //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                                String postId = result.split(":")[1];
+                                Intent intent = new Intent(getApplicationContext(), PostDetailsActivity.class);
+                                post.setId(postId);
+                                intent.putExtra("post", post);
+                                startActivity(intent);
                                 finish();
+
                             }
                             else{
                                 binding.progressBar.setVisibility(View.GONE);

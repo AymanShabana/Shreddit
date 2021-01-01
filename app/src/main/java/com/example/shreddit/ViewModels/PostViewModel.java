@@ -40,5 +40,9 @@ public class PostViewModel extends AndroidViewModel {
         mAllBoardPosts = mRepository.getAllPostsBoard(board);
         return mAllBoardPosts;
     }
+    public List<Post> getPagedPosts(int page) {
+        mAllPosts = mRepository.getPagedPosts(page);
+        return mAllPosts;
+    }
 
 }

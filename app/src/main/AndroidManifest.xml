@@ -15,36 +15,34 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shreddit">
-        <activity android:name=".Views.SearchActivity"
-            android:screenOrientation="portrait"
-            >
-        </activity>
-        <activity android:name=".Views.BoardActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Views.PostDetailsActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Views.Postings.TextPostActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Views.Postings.VideoPostActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Views.Postings.ImagePostActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Views.Postings.LinkPostActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Views.Main.MainActivity"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".Views.Initial.InitialActivity"
-            android:screenOrientation="portrait"
-            >
+        <activity android:name=".Views.ChatDetailsActivity"></activity>
+        <activity
+            android:name=".Views.SearchActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Views.BoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.PostDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Postings.TextPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Postings.VideoPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Postings.ImagePostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Postings.LinkPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Main.MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Views.Initial.InitialActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

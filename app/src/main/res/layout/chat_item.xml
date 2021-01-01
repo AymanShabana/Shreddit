@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_marginBottom="2dp"
+    android:background="@color/black">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:src="@drawable/icon_s"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/boardIcon"
+        >
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:text="SomeUser123"
+            android:id="@+id/users_name"></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:text="No messages yet."
+            android:textSize="14sp"
+            android:id="@+id/last_mssg"></TextView>
+    </LinearLayout>
+</LinearLayout>

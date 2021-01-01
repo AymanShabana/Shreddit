@@ -3,6 +3,7 @@ package com.example.shreddit.Views.Postings;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.widget.Toast;
 
 import com.example.shreddit.Models.Board;
 import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostingViewModel;
 import com.example.shreddit.ViewModels.SubViewModel;
+import com.example.shreddit.Views.PostDetailsActivity;
 import com.example.shreddit.databinding.ActivityLinkPostBinding;
 import com.example.shreddit.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
@@ -50,14 +53,19 @@ public class LinkPostActivity extends AppCompatActivity {
                 }
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.postBtn.setVisibility(View.GONE);
-                Post post = new Post("",title,title.toUpperCase(),board,"https://","https://","",0,0,new Date().getTime()/1000,link,"","link");
+                Post post = new Post("",title,title.toUpperCase(),board,"https://","https://","",0,0,new Date().getTime()/1000,link, UserFirebaseModel.mUser.getUsername(),"link");
                 postingViewModel.insert(post,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {
                         binding.progressBar.setVisibility(View.GONE);
                         binding.postBtn.setVisibility(View.VISIBLE);
-                        if(result.equals("success")){
+                        if(result.startsWith("success")){
                             //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                            String postId = result.split(":")[1];
+                            Intent intent = new Intent(getApplicationContext(), PostDetailsActivity.class);
+                            post.setId(postId);
+                            intent.putExtra("post", post);
+                            startActivity(intent);
                             finish();
                         }
                         else{

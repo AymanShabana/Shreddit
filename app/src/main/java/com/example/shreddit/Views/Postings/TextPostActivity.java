@@ -3,16 +3,20 @@ package com.example.shreddit.Views.Postings;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.shreddit.Models.Post;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostingViewModel;
+import com.example.shreddit.Views.PostDetailsActivity;
 import com.example.shreddit.databinding.ActivityLinkPostBinding;
 import com.example.shreddit.databinding.ActivityTextPostBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Date;
 
@@ -46,7 +50,7 @@ public class TextPostActivity extends AppCompatActivity {
                 }
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.postBtn.setVisibility(View.GONE);
-                Post post = new Post("",title,title.toUpperCase(),board,"https://","https://",text,0,0,new Date().getTime()/1000,"","","text");
+                Post post = new Post("",title,title.toUpperCase(),board,"https://","https://",text,0,0,new Date().getTime()/1000,"", UserFirebaseModel.mUser.getUsername(),"text");
                 postingViewModel.insert(post,new MyCallbackInterface(){
                     @Override
                     public void onAuthFinished(String result) {
@@ -54,6 +58,11 @@ public class TextPostActivity extends AppCompatActivity {
                         binding.postBtn.setVisibility(View.VISIBLE);
                         if(result.equals("success")){
                             //Snackbar.make(binding.parentLayout, "Board created successfully.", Snackbar.LENGTH_LONG).show();
+                            String postId = result.split(":")[1];
+                            Intent intent = new Intent(getApplicationContext(), PostDetailsActivity.class);
+                            post.setId(postId);
+                            intent.putExtra("post", post);
+                            startActivity(intent);
                             finish();
                         }
                         else{

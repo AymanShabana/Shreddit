@@ -63,7 +63,7 @@ public class PostingModel {
                             mRootRef.child("Posts").child(postId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    cb.onAuthFinished("success");
+                                    cb.onAuthFinished("success:"+postId);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

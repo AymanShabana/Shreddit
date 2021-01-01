@@ -62,4 +62,8 @@ public class PostRepo {
         fireBaseModel.progressBarBoard = progressBarSubs;
 
     }
+
+    public List<Post> getPagedPosts(int page) {
+        return fireBaseModel.getPagedPosts(page);
+    }
 }

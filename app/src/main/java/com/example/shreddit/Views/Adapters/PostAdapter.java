@@ -94,13 +94,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             holder.upvote_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(holder.upvote_btn.getTag().equals(1)){
+                        holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                        holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                        holder.upvote_btn.setTag(0);
+                        holder.upvotes_lbl.setText((Integer.parseInt(holder.upvotes_lbl.getText().toString())-1)+"");
+                    }
+                    else{
+                        holder.upvote_btn.setImageResource(R.drawable.up_pressed);
+                        holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                        if(holder.upvote_btn.getTag().equals(0)){
+                            holder.upvotes_lbl.setText((Integer.parseInt(holder.upvotes_lbl.getText().toString())+1)+"");
+                        }
+                        else{
+                            holder.upvotes_lbl.setText((Integer.parseInt(holder.upvotes_lbl.getText().toString())+2)+"");
+                        }
+                        holder.upvote_btn.setTag(1);
+                    }
+
                     PostFirebaseModel.upvotePost(current.getId(),new MyCallbackInterface() {
                         @Override
                         public void onAuthFinished(String result) {
                             if(result.startsWith("Failure: ")){
                             }
                             else{
-                                holder.upvotes_lbl.setText(result);
+                               // holder.upvotes_lbl.setText(result);
                             }
                         }
                     });
@@ -109,13 +127,30 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             holder.downvote_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(holder.upvote_btn.getTag().equals(2)){
+                        holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                        holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                        holder.upvote_btn.setTag(0);
+                        holder.upvotes_lbl.setText((Integer.parseInt(holder.upvotes_lbl.getText().toString())+1)+"");
+                    }
+                    else{
+                        holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                        holder.downvote_btn.setImageResource(R.drawable.down_pressed);
+                        if(holder.upvote_btn.getTag().equals(0)){
+                            holder.upvotes_lbl.setText((Integer.parseInt(holder.upvotes_lbl.getText().toString())-1)+"");
+                        }
+                        else{
+                            holder.upvotes_lbl.setText((Integer.parseInt(holder.upvotes_lbl.getText().toString())-2)+"");
+                        }
+                        holder.upvote_btn.setTag(2);
+                    }
                     PostFirebaseModel.downvotePost(current.getId(),new MyCallbackInterface() {
                         @Override
                         public void onAuthFinished(String result) {
                             if(result.startsWith("Failure: ")){
                             }
                             else{
-                                holder.upvotes_lbl.setText(result);
+                                //holder.upvotes_lbl.setText(result);
                             }
                         }
                     });
@@ -128,14 +163,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         case "1":
                             holder.upvote_btn.setImageResource(R.drawable.up_pressed);
                             holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                            holder.upvote_btn.setTag(1);
                             break;
                         case "2":
                             holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                             holder.downvote_btn.setImageResource(R.drawable.down_pressed);
+                            holder.upvote_btn.setTag(2);
                             break;
                         default:
                             holder.upvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                             holder.downvote_btn.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                            holder.upvote_btn.setTag(0);
                     }
                 }
             });
@@ -149,13 +187,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         mPosts = posts;
         notifyDataSetChanged();
     }
-
+    public void addPosts(List<Post> posts){
+        mPosts.addAll(posts);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         if (mPosts != null)
             return mPosts.size();
         else return 0;
     }
+    public void clear() {
+        mPosts.clear();
+        notifyDataSetChanged();
+    }
+
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
         public final CircleImageView subreddit_img;
