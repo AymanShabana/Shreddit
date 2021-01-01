@@ -25,6 +25,7 @@ public class ChatDetailsFirebaseModel {
     public ProgressBar progressBar;
     private DatabaseReference mRootRef;
     public static ChatDetailsFirebaseModel INSTANCE;
+    public static String otherName="";
     private static Context mContext;
     private List<Message> mMessageList;
     private String chatId;
@@ -70,6 +71,24 @@ public class ChatDetailsFirebaseModel {
             }
 
         });
+        mRootRef.child("Chats").child(chatId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Chat chat = snapshot.getValue(Chat.class);
+                        if(chat.getName1_c().equalsIgnoreCase(UserFirebaseModel.mUser.getUsername_c())){
+                            otherName = chat.getName2_c();
+                        }
+                        else{
+                            otherName = chat.getName1_c();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     public void insert(Message Message, MyCallbackInterface cb) {

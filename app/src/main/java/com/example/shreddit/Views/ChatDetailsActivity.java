@@ -10,13 +10,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.shreddit.Models.Chat;
 import com.example.shreddit.Models.Comment;
 import com.example.shreddit.Models.Message;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.API;
 import com.example.shreddit.Utils.MyCallbackInterface;
+import com.example.shreddit.Utils.VolleySingleton;
 import com.example.shreddit.ViewModels.ChatDetailsViewModel;
 import com.example.shreddit.ViewModels.ChatDetailsViewModelFactory;
 import com.example.shreddit.ViewModels.PostDetailsViewModel;
@@ -25,8 +31,17 @@ import com.example.shreddit.Views.Adapters.CommentAdapter;
 import com.example.shreddit.Views.Adapters.MessageAdapter;
 import com.example.shreddit.databinding.ActivityChatDetailsBinding;
 import com.example.shreddit.databinding.ActivityPostDetailsBinding;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.shreddit.Utils.API.FCM_API;
+import static com.example.shreddit.Utils.API.serverKey;
 
 public class ChatDetailsActivity extends AppCompatActivity {
     private ActivityChatDetailsBinding binding;
@@ -80,6 +95,29 @@ public class ChatDetailsActivity extends AppCompatActivity {
                             binding.progressBarSent.setVisibility(View.GONE);
                             binding.chatBtn.setVisibility(View.VISIBLE);
                             if(result.equals("success")){
+                                String topic ="";
+                                if(UserFirebaseModel.mUser.getUsername_c().equalsIgnoreCase(chat.getName1_c())){
+                                    topic = "/topics/"+chat.getName2_c();
+                                }
+                                else{
+                                    topic = "/topics/"+chat.getName1_c();
+                                }
+                                JSONObject notification = new JSONObject();
+                                JSONObject notificationBody = new JSONObject();
+                                try {
+                                    notificationBody.put("title", UserFirebaseModel.mUser.getUsername());
+                                    notificationBody.put("message", message);
+                                    notificationBody.put("id", chat.getId());
+                                    notificationBody.put("name1", chat.getName1());
+                                    notificationBody.put("name2", chat.getName2());
+                                    notification.put("to", topic);
+                                    notification.put("data", notificationBody);
+                                } catch (JSONException e) {
+                                    Log.e("TAG", "onCreate: " + e.getLocalizedMessage());
+                                }
+
+                                sendNotification(notification);
+
                             }
                             else{
                                 Toast.makeText(ChatDetailsActivity.this, "Error: "+result, Toast.LENGTH_SHORT).show();
@@ -99,6 +137,32 @@ public class ChatDetailsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         chatDetailsViewModel.clean();
+    }
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<String, String>();
+                params.put("Authorization",API.serverKey);
+                params.put("Content-Type", API.contentType);
+                return params;
+            }
+
+        };
+        VolleySingleton.getInstance(getApplicationContext()).getRequestQueue().add(jsonObjectRequest);
     }
 
 }

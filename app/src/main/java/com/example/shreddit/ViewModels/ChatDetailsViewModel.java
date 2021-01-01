@@ -46,6 +46,7 @@ public class ChatDetailsViewModel extends AndroidViewModel {
 
     public void clean() {
         ChatDetailsFirebaseModel.INSTANCE=null;
+        ChatDetailsFirebaseModel.otherName="";
     }
 
     private static class insertAsyncTask extends AsyncTask<Message, Void, Void> {

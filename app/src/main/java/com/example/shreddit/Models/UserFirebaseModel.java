@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class UserFirebaseModel {
     public ActivityMainBinding binding;
@@ -41,6 +42,8 @@ public class UserFirebaseModel {
                 mUser = snapshot.getValue(User.class);
                 binding.username.setText(mUser.getUsername());
                 binding.emailProfile.setText(mUser.getEmail());
+                FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+ UserFirebaseModel.mUser.getUsername_c());
+
             }
 
             @Override

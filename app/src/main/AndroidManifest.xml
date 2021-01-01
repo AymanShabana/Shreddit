@@ -9,16 +9,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_s"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon_s"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shreddit">
-        <activity android:name=".Views.ChatDetailsActivity"></activity>
+        <service
+            android:name="com.example.shreddit.Utils.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".Views.ChatDetailsActivity" />
         <activity
             android:name=".Views.SearchActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Views.BoardActivity"
             android:screenOrientation="portrait" />
@@ -39,7 +50,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Main.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Initial.InitialActivity"
             android:screenOrientation="portrait">

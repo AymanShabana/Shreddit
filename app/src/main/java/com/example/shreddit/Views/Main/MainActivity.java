@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.ViewModels.InitialViewModel;
 import com.example.shreddit.ViewModels.SearchViewModel;
@@ -25,6 +26,7 @@ import com.example.shreddit.Views.Postings.VideoPostActivity;
 import com.example.shreddit.Views.SearchActivity;
 import com.example.shreddit.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 import java.util.Locale;
@@ -159,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         userViewModel.sendBinding(binding);
+
+
     }
     public void openLinkPost(View view){
         view.setOnClickListener(new View.OnClickListener() {
