@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.shreddit.Models.Comment;
 import com.example.shreddit.Models.Post;
 import com.example.shreddit.Models.PostFirebaseModel;
+import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
 import com.example.shreddit.Utils.MyCallbackInterface;
 import com.example.shreddit.ViewModels.PostDetailsViewModel;
@@ -101,6 +102,14 @@ public class PostDetailsActivity extends AppCompatActivity {
         postDetailsViewModel.sendAdapter(adapter,binding.progressBarSubs);
         binding.progressBarSubs.setVisibility(View.VISIBLE);
         adapter.setComments(postDetailsViewModel.getAllComments());
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        if(UserFirebaseModel.mUser.getImageUrl().startsWith("http"))
+            imageLoader.displayImage(UserFirebaseModel.mUser.getImageUrl(),binding.btmUserImg,options);
+
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

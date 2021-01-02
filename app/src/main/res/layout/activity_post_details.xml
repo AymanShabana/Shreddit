@@ -169,7 +169,8 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/icon_s"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:id="@+id/btm_user_img"/>
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

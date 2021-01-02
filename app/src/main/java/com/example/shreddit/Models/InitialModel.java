@@ -113,6 +113,9 @@ public class InitialModel {
     }
     public void logout(){
         auth.signOut();
+        UserFirebaseModel.INSTANCE=null;
+        PostFirebaseModel.INSTANCE=null;
+        ChatFireBaseModel.INSTANCE=null;
     }
     public FirebaseUser getUser(){
         return auth.getCurrentUser();

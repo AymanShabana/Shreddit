@@ -2,6 +2,7 @@ package com.example.shreddit.ViewModels;
 
 import android.app.Application;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -26,8 +27,9 @@ public class ChatViewModel extends AndroidViewModel {
     public List<Chat> getAllChats() { return chatFireBaseModel.getAllChats(); }
     public void insert(Chat chat, MyCallbackInterface success) { chatFireBaseModel.insert(chat,success); }
 
-    public void sendAdapter(ChatAdapter adapter, ProgressBar progressBarSubs) {
+    public void sendAdapter(ChatAdapter adapter, ProgressBar progressBarSubs, TextView textView) {
         chatFireBaseModel.progressBar=progressBarSubs;
         chatFireBaseModel.adapter = adapter;
+        chatFireBaseModel.noChatsYet = textView;
     }
 }

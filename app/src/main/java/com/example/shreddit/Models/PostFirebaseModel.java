@@ -33,7 +33,7 @@ public class PostFirebaseModel {
     public BoardAdapter adapterBoard;
     private DatabaseReference mRootRef;
     //FirebaseFirestore db;
-    private static PostFirebaseModel INSTANCE;
+    public static PostFirebaseModel INSTANCE;
     private static Context mContext;
     private List<Post> mPostList;
     private List<Post> mBoardPostList;

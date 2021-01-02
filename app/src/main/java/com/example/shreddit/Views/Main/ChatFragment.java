@@ -102,7 +102,7 @@ public class ChatFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mChatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        mChatViewModel.sendAdapter(adapter,binding.progressBar);
+        mChatViewModel.sendAdapter(adapter,binding.progressBar,binding.noChatsYet);
         binding.progressBar.setVisibility(View.VISIBLE);
         adapter.setChats(mChatViewModel.getAllChats());
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -26,8 +27,9 @@ import java.util.List;
 
 public class ChatFireBaseModel {
     public ProgressBar progressBar;
+    public TextView noChatsYet;
     private DatabaseReference mRootRef;
-    private static ChatFireBaseModel INSTANCE;
+    public static ChatFireBaseModel INSTANCE;
     private static Context mContext;
     private List<Chat> mChatList1;
     private List<Chat> mChatList2;
@@ -59,8 +61,14 @@ public class ChatFireBaseModel {
                     Chat chat = dataSnapshot.getValue(Chat.class);
                     mChatList1.add(chat);
                 }
-                if((!mChatList1.isEmpty() || !mChatList2.isEmpty()) && progressBar!=null)
+                if((!mChatList1.isEmpty() || !mChatList2.isEmpty()) && progressBar!=null) {
                     progressBar.setVisibility(View.GONE);
+                    noChatsYet.setVisibility(View.GONE);
+                }
+                if(mChatList1.isEmpty() && mChatList2.isEmpty() && progressBar!=null){
+                    progressBar.setVisibility(View.GONE);
+                    noChatsYet.setVisibility(View.VISIBLE);
+                }
                 if(adapter!=null){
                     mChatList.clear();
                     mChatList.addAll(mChatList1);
@@ -103,6 +111,26 @@ public class ChatFireBaseModel {
             }
 
         });
+    }
+    public static void getUserPic(String name, MyCallbackInterface cb){
+        Log.i("ProfilePic",name);
+        FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("username_c").equalTo(name)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.i("ProfilePic",snapshot.toString());
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            User user = dataSnapshot.getValue(User.class);
+                            Log.i("ProfilePic",user.toString());
+                            cb.onAuthFinished(user.getImageUrl());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
     public void insert(Chat chat, MyCallbackInterface cb) {
         final boolean[] exists = {false};
@@ -186,8 +214,15 @@ public class ChatFireBaseModel {
 
 
     public List<Chat> getAllChats() {
-        if((!mChatList1.isEmpty() || !mChatList2.isEmpty()) && progressBar!=null)
+        if((!mChatList1.isEmpty() || !mChatList2.isEmpty()) && progressBar!=null) {
             progressBar.setVisibility(View.GONE);
+            noChatsYet.setVisibility(View.GONE);
+        }
+        if(mChatList1.isEmpty() && mChatList2.isEmpty() && progressBar!=null){
+            progressBar.setVisibility(View.GONE);
+            noChatsYet.setVisibility(View.VISIBLE);
+        }
+
         if(adapter!=null ){
             mChatList.clear();
             mChatList.addAll(mChatList1);

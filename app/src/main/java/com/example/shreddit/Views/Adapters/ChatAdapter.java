@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
 import com.example.shreddit.Models.Chat;
+import com.example.shreddit.Models.ChatFireBaseModel;
 import com.example.shreddit.Models.UserFirebaseModel;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -53,13 +55,27 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             if(UserFirebaseModel.mUser.getUsername_c().equals(current.getName1_c())) {
                 holder.users_name.setText(current.getName2());
-                if(!current.getUserImage2().isEmpty())
-                    imageLoader.displayImage(current.getUserImage2(), holder.boardIcon, options);
+                ChatFireBaseModel.getUserPic(current.getName2().toUpperCase(), new MyCallbackInterface() {
+                    @Override
+                    public void onAuthFinished(String result) {
+                        if(result.startsWith("http")) {
+                            current.setUserImage1(result);
+                            imageLoader.displayImage(result, holder.boardIcon, options);
+                        }
+                    }
+                });
             }
             else {
                 holder.users_name.setText(current.getName1());
-                if(!current.getUserImage1().isEmpty())
-                    imageLoader.displayImage(current.getUserImage1(), holder.boardIcon, options);
+                ChatFireBaseModel.getUserPic(current.getName1().toUpperCase(), new MyCallbackInterface() {
+                    @Override
+                    public void onAuthFinished(String result) {
+                        if(result.startsWith("http")) {
+                            current.setUserImage1(result);
+                            imageLoader.displayImage(result, holder.boardIcon, options);
+                        }
+                    }
+                });
             }
 
             holder.bind(current,listener);
@@ -86,7 +102,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         public final CircleImageView boardIcon;
         private final TextView users_name;
         private final TextView last_mssg;
-
         private ChatViewHolder(View itemView) {
             super(itemView);
             boardIcon = itemView.findViewById(R.id.boardIcon);

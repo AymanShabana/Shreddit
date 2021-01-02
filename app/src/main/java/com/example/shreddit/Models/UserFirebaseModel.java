@@ -29,7 +29,7 @@ public class UserFirebaseModel {
     public ActivityMainBinding binding;
     private FirebaseAuth auth;
     private DatabaseReference mRootRef;
-    private static UserFirebaseModel INSTANCE;
+    public static UserFirebaseModel INSTANCE;
     private static Context mContext;
     public static User mUser;
 
@@ -62,6 +62,7 @@ public class UserFirebaseModel {
                             .cacheOnDisk(true)
                             .build();
                     imageLoader.displayImage(UserFirebaseModel.mUser.getImageUrl(), binding.userPicture, options);
+                    imageLoader.displayImage(UserFirebaseModel.mUser.getImageUrl(), binding.profileImage, options);
 
                 }
                 FirebaseMessaging.getInstance().subscribeToTopic("/topics/"+ UserFirebaseModel.mUser.getUsername_c());

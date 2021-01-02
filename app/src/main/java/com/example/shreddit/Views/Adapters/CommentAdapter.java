@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shreddit.Models.Board;
+import com.example.shreddit.Models.ChatFireBaseModel;
 import com.example.shreddit.Models.Comment;
 import com.example.shreddit.R;
+import com.example.shreddit.Utils.MyCallbackInterface;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -43,6 +45,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             holder.comment_text.setText(current.getComment());
             holder.comment_time.setText(current.getTimeSinceCreation());
             holder.user_name.setText(current.getAuthor());
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            DisplayImageOptions options = new DisplayImageOptions.Builder()
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .build();
+            ChatFireBaseModel.getUserPic(current.getAuthor().toUpperCase(), new MyCallbackInterface() {
+                @Override
+                public void onAuthFinished(String result) {
+                    if(result.startsWith("http")) {
+                        imageLoader.displayImage(result, holder.user_icon, options);
+                    }
+                }
+            });
 
         } else {
             holder.comment_text.setText("Loading...");

@@ -108,6 +108,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_baseline_close_24"/>
+        android:src="@drawable/ic_baseline_close_black_24"/>
 
 </LinearLayout>

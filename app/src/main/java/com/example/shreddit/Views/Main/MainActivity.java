@@ -2,6 +2,7 @@ package com.example.shreddit.Views.Main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -161,7 +163,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         userViewModel.sendBinding(binding);
-
+        binding.profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 
     }
     public void openLinkPost(View view){

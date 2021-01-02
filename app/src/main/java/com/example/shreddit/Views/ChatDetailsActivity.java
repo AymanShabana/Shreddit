@@ -32,6 +32,8 @@ import com.example.shreddit.Views.Adapters.MessageAdapter;
 import com.example.shreddit.databinding.ActivityChatDetailsBinding;
 import com.example.shreddit.databinding.ActivityPostDetailsBinding;
 import com.google.gson.JsonObject;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,8 +67,16 @@ public class ChatDetailsActivity extends AppCompatActivity {
         else{
             binding.usersName.setText(chat.getName1());
         }
+        if(chat.getUserImage1().startsWith("http")){
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            DisplayImageOptions options = new DisplayImageOptions.Builder()
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .build();
+            imageLoader.displayImage(chat.getUserImage1(),binding.topImg,options);
+        }
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_msgs);
-        adapter = new MessageAdapter(this);
+        adapter = new MessageAdapter(this,chat.getUserImage1());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         chatDetailsViewModel = new ViewModelProvider(this, new ChatDetailsViewModelFactory(this.getApplication(),chat.getId())).get(ChatDetailsViewModel.class);
