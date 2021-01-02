@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/black">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange_700"
+        android:text="Enter your new biography."
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:padding="5dp"/>
+    <EditText
+        android:id="@+id/bio_text_area"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:inputType="text|textMultiLine"
+        android:gravity="top"
+        android:hint="Your new bio.."
+        android:textColor="@color/white"
+        android:background="@color/grey_900"
+        android:textColorHint="@color/white"
+        />
+</LinearLayout>

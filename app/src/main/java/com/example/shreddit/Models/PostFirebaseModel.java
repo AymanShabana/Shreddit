@@ -38,6 +38,9 @@ public class PostFirebaseModel {
     private List<Post> mPostList;
     private List<Post> mBoardPostList;
     private ValueEventListener listener;
+    public List<Post> myPostList;
+    public ProgressBar myProgressBar;
+    public PostAdapter myAdapter;
     String mBoard;
     PostAdapter adapter;
     public static PostFirebaseModel getInstance(final Context context) {
@@ -58,6 +61,7 @@ public class PostFirebaseModel {
         //this.db = FirebaseFirestore.getInstance();
         this.mPostList = new ArrayList<Post>();
         this.mBoardPostList = new ArrayList<Post>();
+        this.myPostList = new ArrayList<Post>();
         mRootRef.child("Posts").limitToFirst(20).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -419,4 +423,30 @@ public class PostFirebaseModel {
         return mPostList;
 
     }
+    public List<Post> getAllMyPosts() {
+        mRootRef.child("Posts").orderByChild("author").equalTo(UserFirebaseModel.mUser.getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myPostList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post post = dataSnapshot.getValue(Post.class);
+                    myPostList.add(post);
+                }
+                Collections.reverse(myPostList);
+                if(myProgressBar!=null)
+                    myProgressBar.setVisibility(View.GONE);
+                if(myAdapter!=null){
+                    myAdapter.setPosts(myPostList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+        return myPostList;
+    }
+
 }

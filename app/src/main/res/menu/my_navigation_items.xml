@@ -18,5 +18,5 @@
     <item android:id="@+id/action_notif"
         android:enabled="true"
         android:title="@string/menu_notif"
-        android:icon="@drawable/ic_notif" />
+        android:icon="@drawable/ic_profile_foreground" />
 </menu>
